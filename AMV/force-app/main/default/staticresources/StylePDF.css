@@ -1,0 +1,94 @@
+@page { 
+            margin: 20px 20px 30px 20px ;
+            size:auto;
+            @bottom-left {
+            content: element(footer);
+            }
+            }
+            
+            
+            div.content {
+            padding-top: 130px;
+            } 
+            
+            div.footer {
+            display: block;
+            padding: 5px;
+            position: running(footer);
+            font-family:sans-serif;
+            font-size: 13px;
+            }
+            
+            div.subfooter {
+            display: inline-block;
+            font-family:sans-serif;
+            font-size: 13px;
+            }
+            
+            div.right {
+            float: right;
+            }
+            
+            .pagenumber:before {
+            content: counter(page);
+            }
+            
+            .pagecount:before {
+            content: counter(pages);
+            }
+            
+            .withoutLineTitle {
+            border-width: 0px 0px 0px 0px;
+            font-family:sans-serif;
+            font-size: 13px;
+            font-weight:bold;
+            text-align:center;
+            }
+            
+            .withoutLine {
+            border-width: 0px 0px 0px 0px;
+            }
+            .columnStyle {
+            width: 20%;
+            }
+            
+            .titulo{
+            font-family:sans-serif;
+            font-size: 13px;
+            font-weight:bold;
+            text-align:center;
+            
+            }
+            .subtitulo{
+            font-family:sans-serif;
+            font-size: 13px;
+            
+            
+            }
+            .tituloPrincipal{
+            font-family:sans-serif;
+            font-size: 20px;
+            font-weight:bold;
+            }
+            title {
+            display: inline !important;
+            }
+            .subtituloHeader{
+            text-align:center;
+            font-family:sans-serif;
+            font-size: 20px;
+            font-weight:bold;
+            color:white;
+            padding:3px;
+            }
+            .fondoHeader{
+            background:#005fb2; 
+            
+            
+            width:100%;
+            
+            }
+            .header{
+            width:95%;
+            margin:auto;
+            }

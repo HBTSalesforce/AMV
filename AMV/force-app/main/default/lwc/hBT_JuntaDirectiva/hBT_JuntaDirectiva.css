@@ -1,0 +1,13 @@
+.margenGeneral{
+    padding-right: 10%;
+    padding-left: 10%;
+}
+.colorPrincipal{
+    color: #45a29a ;
+}
+.acordeonPrueba{
+    padding-top: 0%;
+}
+.pruebaColor{
+    --sds-c-button-border: none;  
+}

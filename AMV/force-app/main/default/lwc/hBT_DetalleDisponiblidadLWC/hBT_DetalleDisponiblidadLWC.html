@@ -1,0 +1,304 @@
+<template>
+    <div class="slds-grid slds-wrap slds-gutters_x-large slds-grid_align-center slds-p-around_large">
+        <div class="slds-col slds-size_1-of-1">
+            <template if:false={name}>
+                <div class="slds-grid slds-wrap slds-gutters_x-large slds-grid_align-center slds-p-around_large">
+                    <div class="slds-col slds-size_1-of-3">
+                        <lightning-combobox label="Seleccione sala" value={selectedOption} options={options}
+                            onchange={handleChange} required>
+                        </lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <lightning-combobox label="Seleccione duración" value={selectedOptionDuracion}
+                            options={optionsDuracion} onchange={handleChangeDuracion}>
+                        </lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <br />
+                        <lightning-button class="slds-m-top_small" variant="brand" label="Cargar información"
+                            type="submit" onclick={handleCalendario}></lightning-button>
+                        <br /><br />
+                    </div>
+                </div>
+            </template>
+            <template if:true={name}>
+                <div class="slds-grid slds-wrap slds-gutters_x-large slds-grid_align-center slds-p-around_large">
+                    <br />
+                    <div class="slds-col slds-size_1-of-3"> <span style="font-size: large;color:#64C6C1;"> <b>Canal </b>
+                            de presentación:</span> {canal}</div>
+
+                    <div class="slds-col slds-size_1-of-3">
+                        <lightning-combobox label="Seleccione sala" value={selectedOption} options={options}
+                            onchange={handleChange} required>
+                        </lightning-combobox>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-3">
+                        <br />
+                        <lightning-button class="slds-m-top_small" variant="brand" label="Cargar información"
+                            type="submit" onclick={handleCalendario}></lightning-button>
+                        <br /><br />
+                    </div>
+                </div>
+            </template>
+        </div>
+        <div class="slds-col slds-size_1-of-1">
+            <br />
+            <template if:true={calendatioList}>
+                <span style="font-size: large;color:#64C6C1;"> <b>Información</b> sala</span>
+                <template if:false={name}>
+                    <p>Nombre de la sala: <b><i>{name}</i></b>&nbsp;&nbsp; Tipo de sala:
+                        <b><i>{tipo}</i></b>&nbsp;&nbsp;
+                        Cantidad de cupos: <b><i>{cupos}</i></b></p>
+                </template>
+                <template if:true={name}>
+                    <template if:true={mostrarSala}>
+                     
+                    <p>Nombre de la sala: <b><i>{name}</i></b>&nbsp;&nbsp; Dirección:
+                        <b><i>{direccion}</i></b>&nbsp;&nbsp;
+                       </p>
+                    </template>
+                    <template if:false={mostrarSala}>
+                  
+                        <p>Nombre de la sala: <b><i>{name}</i></b>&nbsp;&nbsp; 
+                           </p>
+                        </template>
+                </template>
+            </template>
+
+
+        </div>
+
+        <div class="slds-col slds-size_1-of-1">
+            <br />
+            <template if:true={calendatioList}>
+                <span style="font-size: large;color:#64C6C1;"> <b>Detalle</b> disponibilidad</span>
+            </template>
+            <br /><br />
+        </div>
+        <div class="slds-col slds-size_3-of-5">
+            <template if:true={calendatioList}>
+                <div class="slds-align_absolute-center">
+
+                    <table
+                        class="slds-table slds-no-row-hover slds-table_bordered slds-border_left slds-border_right  slds-text-align_center">
+                        <thead>
+                            <tr>
+                                <td colspan="7" class="slds-text-align_center">
+                                    <div class="slds-text-heading_small"><b>{mesActual}</b></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:5%;" class="slds-text-align_center">Dom.</td>
+                                <td style="width:5%;" class="slds-text-align_center">Lun.</td>
+                                <td style="width:5%;" class="slds-text-align_center">Mar.</td>
+                                <td style="width:5%;" class="slds-text-align_center">Mie.</td>
+                                <td style="width:5%;" class="slds-text-align_center">Jue.</td>
+                                <td style="width:5%;" class="slds-text-align_center">Vie.</td>
+                                <td style="width:5%;" class="slds-text-align_center">Sab.</td>
+
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+
+
+                            <template for:each={calendatioList} for:item="calendario">
+                                <tr key={calendario} class="slds-text-align_center">
+                                    <td class={calendario.estadoDom}>
+                                        <template if:true={calendario.concupoDom}>
+                                            <a data-id={calendario.fechadomingo}
+                                                style="text-decoration:none;color:black;" onclick={handleDetalle}>
+                                                {calendario.diaDomingo}
+                                            </a>
+                                        </template>
+                                        <template if:false={calendario.concupoDom}>
+                                            {calendario.diaDomingo}
+                                        </template>
+                                    </td>
+                                    <td class={calendario.estadoLun}>
+                                        <template if:true={calendario.concupoLun}>
+                                            <a data-id={calendario.fechalunes} style="text-decoration:none;color:black;"
+                                                onclick={handleDetalle}>
+                                                {calendario.diaLunes}
+                                            </a>
+                                        </template>
+                                        <template if:false={calendario.concupoLun}>
+                                            {calendario.diaLunes}
+                                        </template>
+                                    </td>
+                                    <td class={calendario.estadoMar}>
+                                        <template if:true={calendario.concupoMar}>
+                                            <a data-id={calendario.fechamartes}
+                                                style="text-decoration:none;color:black;" onclick={handleDetalle}>
+                                                {calendario.diaMartes}
+                                            </a>
+                                        </template>
+                                        <template if:false={calendario.concupoMar}>
+                                            {calendario.diaMartes}
+                                        </template>
+                                    </td>
+                                    <td class={calendario.estadoMie}>
+                                        <template if:true={calendario.concupoMie}>
+                                            <a data-id={calendario.fechamiercoles}
+                                                style="text-decoration:none;color:black;" onclick={handleDetalle}>
+                                                {calendario.diaMiercoles}
+                                            </a>
+                                        </template>
+                                        <template if:false={calendario.concupoMie}>
+                                            {calendario.diaMiercoles}
+                                        </template>
+                                    </td>
+                                    <td class={calendario.estadoJue}>
+                                        <template if:true={calendario.concupoJue}>
+                                            <a data-id={calendario.fechajueves}
+                                                style="text-decoration:none;color:black;" onclick={handleDetalle}>
+                                                {calendario.diaJueves}
+                                            </a>
+                                        </template>
+                                        <template if:false={calendario.concupoJue}>
+                                            {calendario.diaJueves}
+                                        </template>
+
+                                    </td>
+                                    <td class={calendario.estadoVie}>
+                                        <template if:true={calendario.concupoVie}>
+                                            <a data-id={calendario.fechaviernes}
+                                                style="text-decoration:none;color:black;" onclick={handleDetalle}>
+                                                {calendario.diaViernes}
+                                            </a>
+                                        </template>
+                                        <template if:false={calendario.concupoVie}>
+                                            {calendario.diaViernes}
+                                        </template>
+
+                                    </td>
+                                    <td class={calendario.estadoSab}>
+                                        <template if:true={calendario.concupoSab}>
+                                            <a data-id={calendario.fechaviernes}
+                                                style="text-decoration:none;color:black;" onclick={handleDetalle}>
+                                                {calendario.diaSabado}
+                                            </a>
+                                        </template>
+                                        <template if:false={calendario.concupoSab}>
+                                            {calendario.diaSabado}
+                                        </template>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <table>
+                        <tr>
+                            <td>
+                                <div style="background-color:#64C6C1;width:20px;">&nbsp;</div>
+                            </td>
+                            <td>Dia seleccionado
+                            </td>
+                            <td>
+                                <div style="background-color:#7bd87b;width:20px;">&nbsp;</div>
+                            </td>
+                            <td>Dia disponible
+                            </td>
+                            <td>
+                                <div style="background-color:#dcdcdc;width:20px;">&nbsp;</div>
+                            </td>
+                            <td>Dia de fiesta
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <center>
+                        <br />
+                        <lightning-button class="slds-m-top_small" variant="brand" label="<"
+                            onclick={handleMesAnterior}></lightning-button>
+                        <lightning-button class="slds-m-top_small" variant="brand" type="submit" label=">"
+                            onclick={handleMesSiguiente}></lightning-button>
+                    </center>
+                </div>
+
+            </template>
+            <template if:false={calendatioList}><br /><br /><br /><br /><br />
+                <br /><br /><br /><br /><br /></template>
+        </div>
+        <div class="slds-col slds-size_2-of-5">
+            <template if:false={name}>
+                <template if:true={calendatioList}>
+                    <template if:true={detalleInfo}>
+                        <div class="slds-box">
+                            Duración : <b>{detalleInfo.estadoLun}</b> hora(s)
+                            <br />
+                            Total Cupos : <b>{detalleInfo.totMartes}</b>
+                            <br />
+                            Cupos Disponibles : <b>{detalleInfo.totLunes}</b>
+                            <br />
+                            Fecha : <b>{detalleInfo.diaLunes}</b>
+                            <br /><br />
+
+
+                            <lightning-datatable key-field="Id" data={detalleInfo.listaDetalle} columns={columns}
+                                onsave={handleSave} draft-values={draftValues} hide-checkbox-column="true"
+                                show-row-number-column="false">
+
+                            </lightning-datatable>
+
+                        </div>
+
+
+                    </template>
+                </template>
+            </template>
+            <template if:true={name}>
+                <template if:true={detalleInfo}>
+                    <div class="slds-box">
+                        Duración : <b>{detalleInfo.estadoLun}</b> hora(s)
+                        <br />
+                        Fecha : <b>{detalleInfo.diaLunes}</b>
+                        <br /><br />
+
+                        <table class="slds-table slds-table_bordered slds-border_left slds-border_right">
+                            <thead>
+                                <tr>
+                                    <th>Hora</th>
+                                    <th>Cupos disponibles</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                <template for:each={detalleInfoList} for:item="detalle">
+                                    <tr key={detalle} class={detalle.estadoLun}>
+
+                                        <td> <a data-id={detalle.idSala} style="text-decoration:none;color:black;"
+                                                onclick={handleAsignarCupo}>
+                                                {detalle.diaLunes}
+                                            </a></td>
+
+                                        <td>{detalle.totLunes} </td>
+
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                        <br />
+                        <center>
+                            <lightning-button class="slds-m-top_small" variant="brand" label="Seleccionar cupo"
+                                type="submit" onclick={handleGuardarAsignacion}></lightning-button>
+                        </center>
+                    </div>
+
+
+                </template>
+
+            </template>
+        </div>
+
+
+    </div>
+
+</template>

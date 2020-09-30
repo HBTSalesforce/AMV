@@ -1,0 +1,113 @@
+<apex:page id="HBTloginPage" controller="SiteLoginController" docType="html-5.0" showHeader="false" 
+           title="Portal del RUC" applyBodyTag="false" lightningStylesheets="false"
+           standardStylesheets="false" showQuickActionVfHeader="false" >
+    
+    <html lang="en">
+        
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1" /> 
+            
+            <title>Portal delProfesional</title>
+            
+            <!-- Bootstrap core CSS -->
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" />
+         
+            <style>
+                body,html {
+                height: 100%;
+                width:100%;
+                margin: 0%;
+                
+                font-size:14px;
+                }    
+                
+                .messageText{
+                color:red !important;
+                }
+                
+               
+            </style>
+            <script type="text/javascript">
+            //metodo para guardar un agrupador nuevo por medio del modal
+            function iniciarSesion(){
+                                  
+                   login(document.getElementById('inputUsername').value, document.getElementById('inputPassword').value);   
+            } 
+            </script>
+        </head>   
+        <body>
+            <apex:slds />
+            <div class="slds-scope">
+                 <div class="slds-grid slds-wrap slds-gutters_x-large slds-grid_align-center slds-p-around_large">
+                    <div class="slds-col slds-size_1-of-1">
+                        <div style="background-color: none; width: 25%; height:100px;"></div>
+                        
+                    </div>    
+                </div>
+               <div class="slds-grid slds-wrap slds-gutters_x-large slds-grid_align-center slds-p-around_large">
+                    <div class="slds-col slds-size_1-of-1">
+                            <div style="padding: 1%;">
+                                <div  class="panel" style="width: 35%; height:70%; margin:auto;text-align:center;"> 
+                                    <div style="mardin:auto">
+                                      <apex:image url="{!URLFOR($Resource.HBT_LogoAMV)}" width="250" /><br/> <br/><br/>
+                                    </div>
+                                    <div class="slds-grid slds-wrap slds-gutters_x-large slds-grid_align-center slds-p-around_large">
+                    <div class="slds-col slds-size_1-of-1">
+                                            <div class="panel" >
+                                                <div class=" panel-body">
+                                                    <apex:form id="loginForm" styleclass="needs-validation"  >
+                                                        <apex:pageMessages id="error"/>
+                                                        
+                                                        <div class="slds-form-element">
+                                                            <div class="slds-form-element__control">
+                                                                <i class="fas fa-user prefix"></i>
+                                                                <input type="text" id="inputUsername"  placeholder="Nombre de usuario"  class="slds-input" required="required" />
+                                                            </div>
+                                                        </div>
+                                                         <div class="slds-form-element">
+                                                            <label class="slds-form-element__label" for="text-input-id-1">
+                                                                <i class="fas fa-lock prefix"></i>
+                                                             </label>
+                                                            <div class="slds-form-element__control">
+                                                                <input  type="password" id="inputPassword" placeholder="Contraseña" class="slds-input" required="required" />
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                            <div class="slds-form-element__control">
+                                                                <center>
+                                                                    <button type="button" class="slds-button slds-button_brand" onclick="iniciarSesion();" >Empezar <i class="fas fa-angle-right ml-1"></i>
+                                                                        <apex:actionFunction name="login" action="{!login}" reRender="loginForm">  
+                                                                            <apex:param name="nombre" assignTo="{!username}" value=""/>  
+                                                                            <apex:param name="contrasena" assignTo="{!password}" value=""/>  
+                                                                        </apex:actionFunction>
+                                                                    </button>
+                                                                    
+                                                                </center>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                 <br /> <br />
+                                                                <center>
+                                                                    <apex:panelGroup id="theLinks">
+                                                                        <apex:outputLink value="{!$Page.ForgotPassword}"> ¿Olvidó la contraseña?</apex:outputLink>
+                                                                        <apex:outputText value=" | " />
+                                                                        <apex:outputLink value="{!$Page.HBT_RegistroprofesionalPage}" >¿No se encuentra registrado?</apex:outputLink>
+                                                                    </apex:panelGroup>
+                                                                </center>
+                                                            </div>
+                                                     
+                                                        
+                                                    </apex:form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </html>
+</apex:page>

@@ -1,0 +1,218 @@
+<template>
+
+  <div class="margenGeneral">
+    <div class="slds-grid"> 
+    <div if:false={activarTodo} class="slds-col_bump-left">
+      <button class="slds-button slds-button_outline-brand" onclick={activarCrear}>+ Agregar</button>
+    </div>
+  </div>
+    <br>
+    <br>
+    <lightning-accordion if:false={activarTodo} allow-multiple-sections-open class="claseAcordeon">
+      <template for:each={arregloAux} for:item="info" for:index="index">
+        <div key={info.Id}>
+          <lightning-accordion-section  name={index} label={info.carrera}>
+            <lightning-button-icon id={index} onclick={editar} slot="actions" icon-name="utility:edit" 
+              title="Editar"></lightning-button-icon>
+            <lightning-record-view-form if:true={info.activar} record-id={info.Id}
+              object-api-name="HBT_Informacion_academica__c">
+              <div class="slds-grid" >
+                <div style="padding-left: 7%;" class="slds-col slds-size_1-of-2">
+                  <lightning-output-field field-name="Formacion_academica__c" variant="standard">
+                  </lightning-output-field>
+                  <lightning-output-field if:true={info.nombreCurso} field-name="Nombre_curso__c" variant="standard">
+                  </lightning-output-field>
+                  <lightning-output-field if:true={info.pais}  field-name="Pais__c" variant="standard">
+                  </lightning-output-field>
+                  <lightning-output-field   field-name="Institucion_academica__c" variant="standard">
+                  </lightning-output-field>
+                  <lightning-output-field if:true={info.estado}  field-name="Estado_estudio__c" variant="standard">
+                  </lightning-output-field>
+                  <lightning-input-field if:true={info.institucion}  field-name="Otra_institucion_academica__c">
+                  </lightning-input-field>
+
+                </div>
+                <div style="padding-right: 7%;" class="slds-col slds-size_1-of-2">
+                  <lightning-output-field if:true={info.nivel}   field-name="Nivel_estudio__c" variant="standard">
+                  </lightning-output-field>
+                  <lightning-output-field if:true={info.tipoCurso} field-name="Tipo_curso__c" variant="standard">
+                  </lightning-output-field>
+                  <lightning-output-field if:true={info.ciudad}   field-name="Ciudad__c" variant="standard">
+                  </lightning-output-field>
+                  <lightning-output-field if:true={info.carrera1}   field-name="Carrera__c" variant="standard">
+                  </lightning-output-field>
+                  <lightning-output-field  field-name="Fecha_terminacion_grado__c" variant="standard">
+                  </lightning-output-field>
+
+                </div>
+              </div>
+            </lightning-record-view-form>
+            <lightning-record-edit-form if:false={info.activar} onsuccess={exito} record-id={info.Id}
+              object-api-name="HBT_Informacion_academica__c">
+              <div 
+              class="slds-grid slds-wrap slds-gutters_large slds-grid_align-center slds-p-around_large">
+              <div class="slds-col slds-size_1-of-2">
+                  <lightning-input-field onchange={cambiarFormacion} name={index} field-name="Formacion_academica__c" variant="standard" >
+                  </lightning-input-field>
+                </div>
+                <div if:true={info.nivel} class="slds-col slds-size_1-of-2">
+                  <lightning-input-field field-name="Nivel_estudio__c" variant="standard" required>
+                  </lightning-input-field>
+                </div>
+                <div if:true={info.pais}  class="slds-col slds-size_1-of-2">
+                  <lightning-input-field  field-name="Pais__c" variant="standard" required>
+                  </lightning-input-field>
+                </div>
+                <div if:true={info.ciudad} class="slds-col slds-size_1-of-2">
+                  <lightning-input-field field-name="Ciudad__c" variant="standard" required>
+                  </lightning-input-field>
+                </div>
+                <div  class="slds-col slds-size_1-of-2">
+                  <lightning-input-field onchange={encontrarValorInstitucion} name={index} variant="standard" field-name="Institucion_academica__c">
+                  </lightning-input-field>
+                </div>
+                <div if:true={info.institucion} class="slds-col slds-size_1-of-2">
+                  <lightning-input-field variant="standard"  field-name="Otra_institucion_academica__c">
+                  </lightning-input-field>
+                </div>
+                <div if:true={info.carrera1} class="slds-col slds-size_1-of-2">
+                  <lightning-input-field variant="standard" field-name="Carrera__c" required>
+                  </lightning-input-field>
+                </div>
+                <div if:true={info.tipoCurso} class="slds-col slds-size_1-of-2">
+                  <lightning-input-field variant="standard" field-name="Tipo_curso__c" required>
+                  </lightning-input-field>
+                </div>
+                <div if:true={info.estado} class="slds-col slds-size_1-of-2">
+                  <lightning-input-field variant="standard" field-name="Estado_estudio__c" required>
+                  </lightning-input-field>
+                </div>
+                <div if:true={info.nombreCurso} class="slds-col slds-size_1-of-2">
+                  <lightning-input-field variant="standard" field-name="Nombre_curso__c" required>
+                  </lightning-input-field>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-input-field variant="standard" field-name="Fecha_terminacion_grado__c">
+                  </lightning-input-field>
+                </div>
+                <div if:false={info.nombreCurso} class="slds-col slds-size_1-of-2">
+
+                </div>
+
+  
+              </div>
+
+              <div class="slds-grid slds-grid_align-end">
+                <div class="slds-col">
+                  <lightning-button style="padding-right: 15px" variant="brand-outline" label="Cancelar"
+                     onclick={editarFalso} class="slds-m-left_x-small">
+                  </lightning-button>
+  
+                </div>
+                <div class="slds-col">
+                  <lightning-button class="slds-m-top_small" variant="brand" type="submit" label="Guardar">
+                  </lightning-button>
+                </div>
+              </div>
+            </lightning-record-edit-form>
+          </lightning-accordion-section>
+        </div>
+      </template>
+    </lightning-accordion>
+  </div>
+
+
+  <template if:true={bShowModal}>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+      aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+      <div class="slds-modal__container">
+        <header class="slds-modal__header">
+          <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+            onclick={desactivarCrear}>
+            <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small">
+            </lightning-icon>
+            <span class="slds-assistive-text">Close</span>
+          </button>
+          <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate" style="color: #406f93;">
+            <b>Formación</b> Académica</h2>
+        </header>
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+          <lightning-record-edit-form object-api-name="HBT_Informacion_academica__c" record-id={recordId}
+            onsuccess={exito} onsubmit={crearInformacionAcademica}>
+            <lightning-input-field style="display: none;" field-name="Profesional__c" value={profesional}>
+            </lightning-input-field>
+            <div 
+            class="slds-grid slds-wrap slds-gutters_large slds-grid_align-center slds-p-around_large">
+            <div if:true={activarFormacionPeque} class="slds-col slds-size_1-of-2">
+                <lightning-input-field onchange={cambiarFormacion} field-name="Formacion_academica__c" value={formacion}>
+                </lightning-input-field>
+              </div>
+              <div if:true={activarFormacionGrande} class="slds-col slds-size_1-of-1">
+                <lightning-input-field onchange={cambiarFormacion} field-name="Formacion_academica__c">
+                </lightning-input-field>
+              </div>
+              <div if:true={activarNivelEstudio} class="slds-col slds-size_1-of-2">
+                <lightning-input-field field-name="Nivel_estudio__c" required>
+                </lightning-input-field>
+              </div>
+              <div if:true={activarPais}  class="slds-col slds-size_1-of-2">
+                <lightning-input-field  field-name="Pais__c" required>
+                </lightning-input-field>
+              </div>
+              <div if:true={activarCiudad} class="slds-col slds-size_1-of-2">
+                <lightning-input-field field-name="Ciudad__c" required>
+                </lightning-input-field>
+              </div>
+              <div if:true={activarInstitucion} class="slds-col slds-size_1-of-2">
+                <lightning-input-field onchange={encontrarValorInstitucion} field-name="Institucion_academica__c">
+                </lightning-input-field>
+              </div>
+              <div if:true={activarCampoOtraInstitucion} class="slds-col slds-size_1-of-2">
+                <lightning-input-field  field-name="Otra_institucion_academica__c">
+                </lightning-input-field>
+              </div>
+              <div if:true={activarCarrera} class="slds-col slds-size_1-of-2">
+                <lightning-input-field  field-name="Carrera__c" required>
+                </lightning-input-field>
+              </div>
+              <div if:true={activarTipoCurso} class="slds-col slds-size_1-of-2">
+                <lightning-input-field  field-name="Tipo_curso__c" required>
+                </lightning-input-field>
+              </div>
+              <div if:true={activarEstado} class="slds-col slds-size_1-of-2">
+                <lightning-input-field  field-name="Estado_estudio__c" required>
+                </lightning-input-field>
+              </div>
+              <div if:true={activarNombreCurso} class="slds-col slds-size_1-of-2">
+                <lightning-input-field  field-name="Nombre_curso__c" required>
+                </lightning-input-field>
+              </div>
+              <div if:true={activarFechaTerminacion} class="slds-col slds-size_1-of-2">
+                <lightning-input-field field-name="Fecha_terminacion_grado__c">
+                </lightning-input-field>
+              </div>
+              <div if:true={activarFormacionPeque} class="slds-col slds-size_1-of-2">
+
+              </div>
+
+            </div>
+            <div if:true={activarFormacionPeque} class="slds-grid slds-grid_align-end">
+              <div class="slds-col">
+                <lightning-button style="padding-right: 15px" variant="brand-outline" label="Cancelar"
+                  title="Primary action with lighter look" onclick={desactivarCrear} class="slds-m-left_x-small">
+                </lightning-button>
+
+              </div>
+              <div class="slds-col">
+                <lightning-button class="slds-m-top_small" variant="brand" type="submit" label="Guardar">
+                </lightning-button>
+              </div>
+            </div>
+          </lightning-record-edit-form>
+        </div>
+
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </template>
+</template>

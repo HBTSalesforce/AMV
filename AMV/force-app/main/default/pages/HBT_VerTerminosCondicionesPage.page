@@ -1,0 +1,68 @@
+<apex:page controller="HBT_VerTerminosCondicionesController"  renderAs="pdf" contentType="application/pdf#Terminios_y_Condiciones.pdf"  showHeader="false" sidebar="false" standardStylesheets="false" applyBodyTag="false" applyHtmlTag="false">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <title>Certificado RUC</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <style type="text/css" media="print">           
+                @page { 
+                size: letter;
+                margin: 90px -5px 70px -5px ;
+                font-family:sans-serif;
+                font-size: 13px;
+                display: inline-block;
+                
+                @bottom-left {
+                content: element(footer);
+                }
+                @top-center {
+                content:  element(header);
+                
+                }
+                @bottom-center {
+                
+                }
+                }
+                .page-break {
+                display:block;
+                page-break-after:always;
+                }
+                
+                div.header {
+                padding: 5px;
+                position: running(header);
+                height:80px; background-color:#003F6F; 
+                }
+                
+                div.footer {
+                display: block;
+                padding: 3px;
+                position: running(footer);
+                }
+                
+            </style>
+            </head>
+        <div class="header">
+            <div ><apex:image value="{!$Resource.HBT_LogoAMV}" height="80px;" style="alignt-text:center;" /></div>
+        </div>
+        <div class="footer">
+            <div>
+                <center>AMV
+                </center>
+                </div>
+        </div>
+        <body style="font-family: sans-serif; font-size: 11pt; padding:60px;">
+            <apex:outputPanel layout="block" style="background-color:#0000FF;"/>
+            <apex:outputPanel >
+                 <apex:panelGrid columns="1" styleClass="infobox" style="text-align: justify !important;">
+                                <span>  
+                                    <P ALIGN="JUSTIFY">
+                <apex:outputText value=" {!contenido}" escape="false" ></apex:outputText>
+                                    </P>
+                     </span>
+                </apex:panelGrid>
+                     </apex:outputPanel>
+        </body>
+    </html>
+</apex:page>

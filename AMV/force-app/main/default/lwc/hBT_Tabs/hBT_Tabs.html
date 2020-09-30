@@ -1,0 +1,33 @@
+<template>
+    <lightning-tabset>
+        <lightning-tab label="Información básica" icon-name="utility:check" value="basica">
+            <c-h-b-t_-informacion-basica></c-h-b-t_-informacion-basica>
+        </lightning-tab>
+        <lightning-tab label="Información académica" icon-name={academica} value="academica">
+            <c-h-b-t_-informacion-academica></c-h-b-t_-informacion-academica>
+        </lightning-tab>
+        <lightning-tab label="Información laboral" icon-name={laboral} value="laboral">
+            <c-h-b-t_-informacion-laboral></c-h-b-t_-informacion-laboral>
+        </lightning-tab>
+        <lightning-tab label="Juntas directivas" icon-name={juntas} value="juntas">
+            <c-h-b-t_-junta-directiva></c-h-b-t_-junta-directiva>
+        </lightning-tab>
+        <lightning-tab label="Representaciones legales" icon-name={representaciones} value="representaciones">
+            <c-h-b-t_-representaciones-legales></c-h-b-t_-representaciones-legales>
+        </lightning-tab>
+        <lightning-tab label="Investigaciones" icon-name={investigaciones} value="investigaciones">
+            <c-h-b-t_-investigaciones></c-h-b-t_-investigaciones>
+        </lightning-tab>
+        <lightning-tab label="Sanciones" icon-name={sanciones} value="sanciones">
+            <c-h-b-t_-sanciones></c-h-b-t_-sanciones>
+        </lightning-tab>
+        <lightning-tab if:true={activarPreguntas} label="Preguntas revelación" value="preguntas" icon-name={preguntas}>
+            <c-h-b-t_-Preguntas-Revelacion></c-h-b-t_-Preguntas-Revelacion>
+        </lightning-tab>
+        <lightning-tab  label="Operaciones en el mercado de valores" icon-name={mercado} value="mercado">
+            <c-h-b-t_-Actividad-Mercado-Valores></c-h-b-t_-Actividad-Mercado-Valores>
+        </lightning-tab>
+        
+    </lightning-tabset>
+
+</template>

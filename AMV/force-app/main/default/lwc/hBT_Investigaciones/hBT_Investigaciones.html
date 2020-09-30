@@ -1,0 +1,199 @@
+<template>
+    <div style=" padding-right: 10%; padding-left: 10%;">
+        <div class="slds-grid">
+            <div if:true={activarAplica} style="padding-top: 10px" dir="rtl">
+              <div  class="slds-form-element">
+                <label  class="slds-checkbox_toggle slds-grid">
+                  <span style="padding-left: 10px;" class="slds-form-element__label slds-m-bottom_none">No aplica</span>
+                  <input class="check" onchange={activarInvestigaciones} type="checkbox" name="checkbox-toggle-16" value="checkbox-toggle-16"
+                    aria-describedby="checkbox-toggle-16" checked={activarTodo} />
+                  <span id="checkbox-toggle-16" class="slds-checkbox_faux_container" aria-live="assertive">
+                    <span style="background: linear-gradient(to left, #4bada8  ,black);"  class="slds-checkbox_faux"></span>
+                  </span>
+                </label>
+            </div>
+          </div>
+          <div if:false={activarTodo} class="slds-col_bump-left">
+            <button class="slds-button slds-button_outline-brand" onclick={activarCrear}>+ Agregar</button>
+          </div>
+        </div>
+        <br>
+        <br>
+        <lightning-accordion if:false={activarTodo} allow-multiple-sections-open class="prueba">
+            <template for:each={accList} for:item="info" for:index="index">
+                <div key={info.Id}>
+                    <lightning-accordion-section  name={index} label={info.Entidad__c}>
+                        <lightning-button-icon id={index} onclick={editar} slot="actions" icon-name="utility:edit"
+                            alternative-text="Editar" title="Editar"></lightning-button-icon>
+                        <lightning-record-view-form if:true={info.activar} record-id={info.Id}
+                            object-api-name="HBT_Investigacion__c">
+                            <div class="slds-grid" >
+                                <div style="padding-left: 7%;" class="slds-col slds-size_1-of-2">
+
+                                    <lightning-output-field onchange={obtenerEntidad} field-name="Entidad__c" variant="standard">
+                                    </lightning-output-field>
+                                    <lightning-output-field field-name="Estado__c" variant="standard">
+                                    </lightning-output-field>
+                                    <lightning-output-field field-name="Fecha_desde__c" variant="standard">
+                                    </lightning-output-field>
+
+                                </div>
+                                <div style="padding-right: 7%;" class="slds-col slds-size_1-of-2">
+
+                                    <lightning-output-field field-name="Motivo_investigacion__c" variant="standard">
+                                    </lightning-output-field>
+                                    <lightning-output-field field-name="Fecha_hasta__c" variant="standard">
+                                    </lightning-output-field>
+                                    <span class="slds-form-element__label">Archivos</span>
+                                    <ul class="slds-has-inline-block-links">
+                                      <template for:each={info.lista} for:item="data" for:index="indice">
+                                        <li key={data.lista}>
+                                          <a href={data.lista}  style="color: #4bada8;text-decoration-line: underline" target="_target">Documento {indice}</a>
+                                        </li>
+                                      </template>
+                                    </ul>
+                                </div>
+                            </div>
+                        </lightning-record-view-form>
+                        <lightning-record-edit-form if:false={info.activar} onsuccess={exito} record-id={info.Id}
+                            object-api-name="HBT_Investigacion__c">
+                            <div 
+                                class="slds-grid slds-wrap slds-gutters_large slds-grid_align-center slds-p-around_large">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input-field onchange={obtenerEntidad} field-name="Entidad__c" variant="standard">
+                                    </lightning-input-field>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input-field if:true={activarCual} field-name="Cual__c" variant="standard" required>
+                                    </lightning-input-field>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input-field field-name="Estado__c" variant="standard">
+                                    </lightning-input-field>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input-field field-name="Motivo_investigacion__c" variant="standard">
+                                    </lightning-input-field>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input-field field-name="Fecha_desde__c" variant="standard">
+                                    </lightning-input-field>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input-field field-name="Fecha_hasta__c" variant="standard">
+                                    </lightning-input-field>
+                                </div>
+                                <div  class="slds-col slds-size_1-of-2">
+                                    <span class="slds-form-element__label">Archivos</span>
+                                    <ul class="slds-has-inline-block-links">
+                                      <template for:each={info.lista} for:item="data" for:index="indice">
+                                        <li key={data.lista}>
+                                          <div style="padding-bottom: 0;" class="slds-grid slds-wrap slds-gutters_large slds-grid_align-center slds-p-around_large">
+                                          <div class="slds-col slds-size_1-of-2">
+                                            <a href={data.lista} style="color: #4bada8;text-decoration-line: underline" target="_target">Documento{indice}</a>
+                                          </div>
+                                          <div onclick={eliminarArchivo} id={data.id} style="color: red;" class="slds-col slds-size_1-of-2">
+                                                x
+                                          </div>
+                                        </div>
+                                        </li>
+                                      </template>
+                                    </ul>
+                                  </div>
+                                  <div class="slds-col slds-size_1-of-2">                  
+                                  </div>
+                            </div>
+
+                            <div class="slds-grid slds-grid_align-end">
+                                <lightning-file-upload name="fileUploader" accept={acceptedFormats} record-id={info.Id}
+                                  onuploadfinished={handleUploadFinished} multiple>
+                                </lightning-file-upload>
+                              </div>
+                              <br>
+                            <div class="slds-grid slds-grid_align-end">
+                                <div class="slds-col">
+                                    <lightning-button style="padding-right: 10px;" variant="brand-outline"
+                                        label="Cancelar" onclick={editarFalse} class="slds-m-left_x-small ">
+                                    </lightning-button>
+                                </div>
+                                <div class="slds-col">
+                                    <lightning-button class="slds-m-top_small" variant="brand" type="submit"
+                                        label="Guardar">
+                                    </lightning-button>
+                                </div>
+                            </div>
+                        </lightning-record-edit-form>
+                    </lightning-accordion-section>
+                </div>
+            </template>
+        </lightning-accordion>
+    </div>
+    <template if:true={bShowModal}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open " aria-labelledby="modal-heading-01"
+            aria-modal="true" aria-describedby="modal-content-id-1">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={desactivarCrear}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate" style="color: #406f93;">
+                        <b>Investigaciones</b></h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lightning-record-edit-form object-api-name="HBT_Investigacion__c" onsuccess={exito}
+                        onsubmit={crearInformacionLaboral}>
+                        <lightning-input-field style="display: none;" value={profesional} field-name="Profesional__c"
+                            required>
+                        </lightning-input-field>
+                        <div 
+                            class="slds-grid slds-wrap slds-gutters_large slds-grid_align-center slds-p-around_large">
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field onchange={obtenerEntidad} field-name="Entidad__c">
+                                </lightning-input-field>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field if:true={activarCual} field-name="Cual__c" required>
+                                </lightning-input-field>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field field-name="Estado__c" required>
+                                </lightning-input-field>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field field-name="Motivo_investigacion__c" required>
+                                </lightning-input-field>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field field-name="Fecha_desde__c" required>
+                                </lightning-input-field>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field field-name="Fecha_hasta__c" required>
+                                </lightning-input-field>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-grid_align-end">
+                            <div class="slds-col">
+                                <lightning-button style="padding-right: 10px;" variant="brand-outline"
+                                    label="Cancelar" onclick={desactivarCrear} class="slds-m-left_x-small ">
+                                </lightning-button>
+                            </div>
+                            <div class="slds-col">
+                                <lightning-button class="slds-m-top_small" variant="brand" type="submit"
+                                    label="Guardar">
+                                </lightning-button>
+                            </div>
+                        </div>
+                    </lightning-record-edit-form>
+                </div>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+
+
+    </template>
+</template>
