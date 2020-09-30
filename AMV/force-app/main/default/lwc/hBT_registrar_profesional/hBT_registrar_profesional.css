@@ -1,0 +1,36 @@
+.slds-modal__content {
+  overflow: initial;
+}
+lightning-card{
+border: none !important;
+}
+.slds-card {
+  padding: 5% !important;
+
+}
+.mensajeSucess {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 400;
+  text-align: center;
+  background: #88cf9b;
+  margin: 0 0 25px;
+  overflow: hidden;
+  padding: 20px;
+  border-radius: 20px 20px 20px 20px;
+  border: 2px solid #79b784;
+  width: 50%;
+}
+.mensajeError {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 400;
+  text-align: center;
+  background: #eda1a1;
+  margin: 0 0 25px;
+  overflow: hidden;
+  padding: 20px;
+  border-radius: 20px 20px 20px 20px;
+  border: 2px solid #f28e8e;
+  width: 50%;
+}

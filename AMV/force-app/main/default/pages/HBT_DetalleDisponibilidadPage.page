@@ -1,0 +1,39 @@
+<apex:page sidebar="false" showHeader="false">
+    <apex:includeScript value="/lightning/lightning.out.js"/>
+    <head>  
+        <style>
+        .borde{
+            border: none !important;
+            }
+            .record svg {
+            fill : green;
+            
+            }
+        </style>
+    </head>
+    <apex:includeLightning />
+    <div class="slds">
+        <div>
+            <div class="slds-col"><div id="formSelection" class="borde" /></div>
+        </div>
+    </div>
+    <script>
+    
+    $Lightning.use("c:HBT_DetalleDisponibilidadApp",
+                   function(){
+                       $Lightning.createComponent(
+                           "c:hBT_DetalleDisponiblidadLWC",
+                           { },
+                           "formSelection",
+                           function(cmp){
+                               // Callback when component is created
+                           }
+                       );
+                   },
+                   "{!$Site.BaseUrl}",
+                   null
+                  );
+    
+    
+    </script>
+</apex:page>

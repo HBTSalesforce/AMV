@@ -1,0 +1,17 @@
+.margenIzquierda{
+padding-left: 20px;
+}
+.hola{
+    clear: both;
+}
+.slds-form-element_horizontal{
+    clear: both;
+    
+}
+.margenGeneral{
+    padding-left: 10%;
+    padding-right: 10%;
+}
+.colorPrincipal{
+    color: #45a29a ;
+}

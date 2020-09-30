@@ -1,0 +1,17 @@
+<template>
+
+    <template if:true={mostrarTabla}>
+        <div class="app slds-p-around_x-large">
+            <lightning-datatable key-field="Id" data={examanesList} hide-checkbox-column="true" columns={COLUMNAS}
+                show-row-number-column="false" onrowaction={handleRowAction}>
+            </lightning-datatable>
+        </div>
+
+    </template>
+
+    <template if:false={mostrarTabla}>
+        <center>
+            <p><i>No hay registros para mostrar</i></p>
+        </center>
+    </template>
+</template>

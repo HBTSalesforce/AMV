@@ -1,0 +1,468 @@
+<template>
+  <div class="margenGeneral">
+    <div class="slds-grid">
+      <div if:true={activarAplica} style="padding-top: 10px" dir="rtl">
+        <div class="slds-form-element">
+          <label class="slds-checkbox_toggle slds-grid">
+            <span style="padding-left: 10px;" class="slds-form-element__label slds-m-bottom_none">Sin experiencia</span>
+            <input class="check" onchange={activarLaboral} type="checkbox" name="checkbox-toggle-16"
+              value="checkbox-toggle-16" aria-describedby="checkbox-toggle-16" checked={activarTodo} />
+            <span id="checkbox-toggle-16" class="slds-checkbox_faux_container" aria-live="assertive">
+              <span style="background: linear-gradient(to left, #4bada8  ,black);" class="slds-checkbox_faux"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+      <div if:false={activarTodo} class="slds-col_bump-left">
+        <button class="slds-button slds-button_outline-brand" onclick={activarCrear}>+ Agregar</button>
+      </div>
+    </div>
+    <br>
+    <br>
+    <lightning-accordion if:false={activarTodo} allow-multiple-sections-open class="prueba">
+      <template for:each={accList} for:item="info" for:index="index">
+        <div key={info.Id}>
+          <lightning-accordion-section name={index} label={info.Cargo__c}>
+            <lightning-button-icon if:true={info.labora} id={index} onclick={editar} slot="actions"
+              icon-name="utility:edit" alternative-text="Settings" title="Settings"></lightning-button-icon>
+            <lightning-record-view-form if:true={info.activar} record-id={info.Id}
+              object-api-name="HBT_Informacion_laboral__c">
+              <div class="slds-grid">
+                <div style="padding-left: 7%;" class="slds-col slds-size_1-of-2">
+
+                  <lightning-output-field field-name="Entidad__c" variant="standard">
+
+                  </lightning-output-field>
+                  <label if:true={info.labora} class="slds-form-element__label" for="text-output-id-1">Dirección donde
+                    labora</label>
+
+                  <div if:true={info.labora} style="width: 200px;" class="slds-grid">
+                    <div class="slds-col">
+                      <lightning-output-field field-name="Tipo_via__c" variant="label-hidden" required>
+                      </lightning-output-field>
+                    </div>
+                    <div style="padding:0" class="slds-col">
+                      <lightning-output-field field-name="Via_principal__c" variant="label-hidden" required>
+                      </lightning-output-field>
+                    </div>
+                    <div style="padding:0" class="slds-col"> # </div>
+                    <div style="padding:0" class="slds-col">
+                      <lightning-output-field field-name="Numero__c" variant="label-hidden" required>
+                      </lightning-output-field>
+                    </div>
+                    <div style="padding:0" class="slds-col"> - </div>
+                    <div style="padding:0" class="slds-col">
+                      <lightning-output-field field-name="Via_generadora__c" variant="label-hidden" required>
+                      </lightning-output-field>
+                    </div>
+                  </div>
+
+                  <div if:true={info.labora} class="slds-col slds-size_1-of-1">
+                    <br />
+                    <label class="slds-form-element__label" for="text-input-id-1">Información complementaria</label>
+
+                    <lightning-output-field field-name="Complemento__c" variant="label-hidden"
+                      placeholder="Información complementaria">
+                    </lightning-output-field>
+
+                  </div>
+                  <lightning-output-field if:true={info.labora} field-name="Correo_electronico_corporativo__c"
+                    variant="standard">
+                  </lightning-output-field>
+                  <lightning-output-field field-name="Fecha_ingreso__c" variant="standard">
+                  </lightning-output-field>
+                  <lightning-output-field field-name="Cargo__c" variant="standard">
+                  </lightning-output-field>
+                </div>
+                <div style="padding-right: 7%;" class="slds-col slds-size_1-of-2">
+                  <lightning-output-field if:true={info.labora} field-name="Ciudad__c" variant="standard">
+                  </lightning-output-field>
+                  <lightning-output-field if:true={info.labora} field-name="Telefono__c" variant="standard">
+                  </lightning-output-field>
+                  <lightning-output-field field-name="Vinculacion__c" variant="standard">
+                  </lightning-output-field>
+                  <lightning-output-field if:true={info.labora} field-name="Fecha_retiro__c" variant="standard">
+                  </lightning-output-field>
+                  <lightning-output-field field-name="Entidad_reporta_superintendencia__c" variant="standard">
+                  </lightning-output-field>
+                  <lightning-output-field field-name="Funciones_desempena__c" variant="standard">
+                  </lightning-output-field>
+                </div>
+              </div>
+            </lightning-record-view-form>
+            <lightning-record-edit-form if:false={info.activar} object-api-name="HBT_Informacion_laboral__c"
+              record-id={info.Id} onsuccess={exito} onsubmit={crearInformacionLaboral}>
+              <lightning-input-field style="display: none;" variant="standard" field-name="Profesional__c"
+                value={profesional}>
+              </lightning-input-field>
+              <div class="slds-grid slds-wrap slds-gutters_large slds-grid_align-center slds-p-around_large">
+                <div style="padding-top: 30px;" class="slds-col slds-size_1-of-1">
+                  <lightning-input-field variant="standard" id={info.Id} onchange={checkLarobaActualmenteEditar}
+                    field-name="Labora_actualmente__c">
+                  </lightning-input-field>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-input-field variant="standard" onchange={obtenerEntidad} field-name="Entidad__c" required>
+                  </lightning-input-field>
+                </div>
+                <div if:true={info.labora} class="slds-col slds-size_1-of-2">
+                  <lightning-input-field variant="standard" field-name="Ciudad__c">
+                  </lightning-input-field>
+                </div>
+                <div if:true={activarNitDigito} class="slds-col slds-size_1-of-2">
+                  <lightning-input-field variant="standard" field-name="NIT_entidad__c" required>
+                  </lightning-input-field>
+                  <label if:true={info.labora} class="slds-form-element__label" for="text-input-id-1">Dirección donde
+                    labora</label>
+
+                </div>
+                <div if:true={activarNitDigito} class="slds-col slds-size_1-of-2">
+                  <lightning-input-field variant="standard" field-name="Digito_verficacion_entidad__c" required>
+                  </lightning-input-field>
+                </div>
+                <div if:true={info.labora} class="slds-col slds-size_1-of-2">
+                  <lightning-input-field variant="standard" field-name="Telefono__c">
+                  </lightning-input-field>
+                </div>
+                <div if:true={info.labora} class="slds-col slds-size_1-of-2">
+                  <lightning-input-field variant="standard" field-name="Correo_electronico_corporativo__c" required>
+                  </lightning-input-field>
+                </div>
+                <div if:true={info.labora} class="slds-col slds-size_1-of-2">
+                  <label class="slds-form-element__label" for="text-input-id-1">Dirección donde labora</label>
+
+                  <div class="slds-grid">
+                    <div style="margin-left: -22px; padding-right: 15px;" class="slds-col">
+
+                      <lightning-input-field field-name="Tipo_via__c" variant="label-hidden" required>
+                      </lightning-input-field>
+                    </div>
+                    <div style="padding: 0;" class="slds-col ">
+                      <lightning-input-field field-name="Via_principal__c" variant="label-hidden" required>
+                      </lightning-input-field>
+                    </div>
+                    <div style="padding: 0;" class="slds-col "> # </div>
+                    <div style="padding: 0;" class="slds-col ">
+                      <lightning-input-field field-name="Numero__c" variant="label-hidden" required>
+                      </lightning-input-field>
+                    </div>
+                    <div style="padding: 0;" class="slds-col "> - </div>
+                    <div style="padding: 0;" class="slds-col ">
+                      <lightning-input-field field-name="Via_generadora__c" variant="label-hidden" required>
+                      </lightning-input-field>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div if:true={info.labora} class="slds-col slds-size_1-of-2">
+                  <lightning-input-field style="display: none;" value={info.complementario} field-name="Complemento__c"  variant="label-hidden">
+                  </lightning-input-field>
+                  <lightning-input type="text" onchange={obtenerDireccion}
+                  placeholder="Información complementaria de la dirección"></lightning-input>
+
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-input-field variant="standard" field-name="Vinculacion__c">
+                  </lightning-input-field>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-input-field variant="standard" field-name="Fecha_ingreso__c">
+                  </lightning-input-field>
+                </div>
+                <div if:false={info.labora} class="slds-col slds-size_1-of-2">
+                  <lightning-input-field if:false={info.labora} variant="standard" field-name="Fecha_retiro__c"
+                    required>
+                  </lightning-input-field>
+                </div>
+                <div if:false={info.labora} class="slds-col slds-size_1-of-2">
+                  <lightning-input-field variant="standard" field-name="Motivo_retiro__c" required>
+                  </lightning-input-field>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-input-field variant="standard" field-name="Cargo__c">
+                  </lightning-input-field>
+
+                </div>
+                <div style="padding-top: 30px;" class="slds-col slds-size_1-of-2">
+                  <lightning-input-field variant="standard" field-name="Entidad_reporta_superintendencia__c">
+                  </lightning-input-field>
+                </div>
+                <div if:false={info.labora} class="slds-col slds-size_1-of-2">
+
+                </div>
+
+
+                <div class="slds-col slds-size_1-of-1">
+                  <lightning-input-field onchange={obtenerFunciones} variant="standard"
+                    field-name="Funciones_desempena__c">
+                  </lightning-input-field>
+                  <lightning-input-field variant="standard" if:true={activarCampoOtrasFunciones}
+                    field-name="Otras_Funciones__c" required>
+                  </lightning-input-field>
+                  <div class="slds-grid">
+                    <div style="padding-left: 0;" class="slds-col">
+                      <lightning-input-field variant="label-hidden" id={info.Id} onchange={checkPublicosEditar}
+                        field-name="Entidad_publica__c">
+                      </lightning-input-field>
+                    </div>
+                    <div style="padding-left: 0;" class="slds-col">
+                      <label class="slds-form-element__label" for="campo">¿Trabaja en entidad pública y tiene
+                        designación?</label>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <div if:true={info.entidad} class="slds-col slds-size_1-of-2">
+                  <lightning-input-field variant="standard" field-name="Fecha_posesion_SFC__c" required>
+                  </lightning-input-field>
+                </div>
+                <div if:true={info.entidad} class="slds-col slds-size_1-of-2">
+                  <lightning-input-field variant="standard" field-name="Fecha_posesion_BVC__c" required>
+                  </lightning-input-field>
+                </div>
+                <div if:true={info.entidad} class="slds-col slds-size_1-of-2">
+                  <lightning-input-field variant="standard" field-name="Fecha_designacion__c" required>
+                  </lightning-input-field>
+                </div>
+                <div if:true={info.entidad} class="slds-col slds-size_1-of-2">
+                  <lightning-input-field variant="standard" field-name="Documento_designacion__c" required>
+                  </lightning-input-field>
+                </div>
+                <div if:true={info.entidad} class="slds-col slds-size_1-of-2">
+                  <lightning-input-field variant="standard" field-name="Numero_designacion__c" required>
+                  </lightning-input-field>
+                </div>
+                <div if:true={info.entidad} class="slds-col slds-size_1-of-2">
+                </div>
+              </div>
+              <div class="slds-grid slds-grid_align-end">
+                <div class="slds-col">
+                  <lightning-button style="padding-right: 10px;" variant="brand-outline" label="Cancelar"
+                    onclick={editarFalse} class="slds-m-left_x-small "></lightning-button>
+                </div>
+                <div class="slds-col">
+                  <lightning-button class="slds-m-top_small" variant="brand" type="submit" label="Guardar">
+                  </lightning-button>
+                </div>
+              </div>
+            </lightning-record-edit-form>
+          </lightning-accordion-section>
+        </div>
+      </template>
+    </lightning-accordion>
+  </div>
+  <template if:true={bShowModal}>
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_small"
+      aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+      <div class="slds-modal__container">
+        <header class="slds-modal__header">
+          <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+            onclick={desactivarCrear}>
+            <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small">
+            </lightning-icon>
+            <span class="slds-assistive-text">Close</span>
+          </button>
+          <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate" style="color: #406f93;"><b>Información </b>
+            Laboral</h2>
+        </header>
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+          <lightning-record-edit-form object-api-name="HBT_Informacion_laboral__c" onsuccess={exito}
+            onsubmit={crearInformacionLaboral}>
+            <lightning-input-field style="display: none;" variant="standard" field-name="Profesional__c"
+              value={profesional}>
+            </lightning-input-field>
+            <div style="padding-left: 10%; padding-right: 10%;"
+              class="slds-grid slds-wrap slds-gutters_large slds-grid_align-center slds-p-around_large">
+              <div style="padding-top: 30px;" class="slds-col slds-size_1-of-1">
+                <lightning-input-field variant="standard" onchange={checkLarobaActualmente}
+                  field-name="Labora_actualmente__c">
+                </lightning-input-field>
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                <lightning-input-field variant="standard" onchange={obtenerEntidad} field-name="Entidad__c" required>
+                </lightning-input-field>
+
+              </div>
+              <div if:true={activarCampoFechaRetiro} class="slds-col slds-size_1-of-2">
+                <lightning-input-field variant="standard" field-name="Ciudad__c">
+                </lightning-input-field>
+              </div>
+              <div if:true={activarNitDigito} class="slds-col slds-size_1-of-2">
+                <lightning-input-field variant="standard" field-name="NIT_entidad__c" required>
+                </lightning-input-field>
+
+              </div>
+              <div if:true={activarNitDigito} class="slds-col slds-size_1-of-2">
+                <lightning-input-field variant="standard" field-name="Digito_verficacion_entidad__c" required>
+                </lightning-input-field>
+              </div>
+
+              <div if:true={activarCampoFechaRetiro} class="slds-grid slds-wrap slds-grid_align-center">
+                <div class="slds-col slds-size_full">
+                  <div class="slds-grid">
+                    <div style="width: 300px;padding-left: 0; padding-right: 6px;" class="slds-col">
+                      <label class="slds-form-element__label" for="text-input-id-1">Dirección donde labora</label>
+                      <lightning-input-field field-name="Tipo_via__c" variant="label-hidden" required>
+                      </lightning-input-field>
+                    </div>
+                    <div style="padding-top: 25px; padding-left: 0; padding-right: 0;" class="slds-col ">
+                      <lightning-input-field field-name="Via_principal__c" variant="label-hidden" required>
+                      </lightning-input-field>
+                    </div>
+                    <div style="padding-top: 25px; padding-left: 0; padding-right: 0;" class="slds-col "> # </div>
+                    <div style="padding-top: 25px; padding-left: 0; padding-right: 0;" class="slds-col ">
+                      <lightning-input-field field-name="Numero__c" variant="label-hidden" required>
+                      </lightning-input-field>
+                    </div>
+                    <div style="padding-top: 25px; padding-left: 0; padding-right: 0;" class="slds-col "> - </div>
+                    <div style="padding-top: 25px; padding-left: 0; padding-right: 0;" class="slds-col ">
+                      <lightning-input-field field-name="Via_generadora__c" variant="label-hidden" required>
+                      </lightning-input-field>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div if:true={activarCampoFechaRetiro} class="slds-col slds-size_1-of-1">
+                <lightning-input-field style="display: none;" value={complementoDireccion} field-name="Complemento__c"  variant="label-hidden">
+                </lightning-input-field>
+                <lightning-input type="text" onchange={obtenerDireccion}
+                placeholder="Información complementaria de la dirección"></lightning-input>
+              </div>
+              <div if:true={activarCampoFechaRetiro} class="slds-col slds-size_1-of-2">
+                <lightning-input-field variant="standard" field-name="Telefono__c">
+                </lightning-input-field>
+              </div>
+              <div if:true={activarCampoFechaRetiro} class="slds-col slds-size_1-of-2">
+                <lightning-input-field variant="standard" field-name="Correo_electronico_corporativo__c" required>
+                </lightning-input-field>
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                <lightning-input-field variant="standard" field-name="Vinculacion__c">
+                </lightning-input-field>
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                <lightning-input-field variant="standard" field-name="Fecha_ingreso__c">
+                </lightning-input-field>
+              </div>
+              <div if:false={activarCampoFechaRetiro} class="slds-col slds-size_1-of-2">
+                <lightning-input-field if:false={activarCampoFechaRetiro} variant="standard"
+                  field-name="Fecha_retiro__c" required>
+                </lightning-input-field>
+
+              </div>
+              <div if:false={activarCampoFechaRetiro} class="slds-col slds-size_1-of-2">
+                <lightning-input-field variant="standard" field-name="Motivo_retiro__c" required>
+                </lightning-input-field>
+              </div>
+
+              <div class="slds-col slds-size_1-of-2">
+                <lightning-input-field variant="standard" field-name="Cargo__c">
+                </lightning-input-field>
+              </div>
+              <div style="padding-top: 30px;" class="slds-col slds-size_1-of-2">
+                <lightning-input-field variant="standard" field-name="Entidad_reporta_superintendencia__c">
+                </lightning-input-field>
+              </div>
+              <div if:true={activarCampoFechaRetiro} class="slds-col slds-size_1-of-2">
+
+              </div>
+              <div class="slds-col slds-size_1-of-1">
+                <lightning-input-field onchange={obtenerFunciones} variant="standard"
+                  field-name="Funciones_desempena__c">
+                </lightning-input-field>
+                <lightning-input-field variant="standard" if:true={activarCampoOtrasFunciones}
+                  field-name="Otras_Funciones__c" required>
+                </lightning-input-field>
+                <div class="slds-grid">
+                  <div style="padding-left: 0;" class="slds-col">
+                    <lightning-input-field variant="label-hidden" onchange={checkTrabajo}
+                      field-name="Entidad_publica__c">
+                    </lightning-input-field>
+                  </div>
+                  <div style="padding-left: 0;" class="slds-col">
+                    <label class="slds-form-element__label" for="campo">¿Trabaja en entidad pública y tiene
+                      designación?</label>
+                  </div>
+                </div>
+                <br>
+              </div>
+              <br>
+              <div if:true={activarCamposPublicos} class="slds-col slds-size_1-of-2">
+                <lightning-input-field variant="standard" field-name="Fecha_posesion_SFC__c" required>
+                </lightning-input-field>
+              </div>
+              <div if:true={activarCamposPublicos} class="slds-col slds-size_1-of-2">
+                <lightning-input-field variant="standard" field-name="Fecha_posesion_BVC__c" required>
+                </lightning-input-field>
+              </div>
+              <div if:true={activarCamposPublicos} class="slds-col slds-size_1-of-2">
+                <lightning-input-field variant="standard" field-name="Fecha_designacion__c" required>
+                </lightning-input-field>
+              </div>
+              <div if:true={activarCamposPublicos} class="slds-col slds-size_1-of-2">
+                <lightning-input-field variant="standard" field-name="Documento_designacion__c" required>
+                </lightning-input-field>
+              </div>
+              <div if:true={activarCamposPublicos} class="slds-col slds-size_1-of-2">
+                <lightning-input-field variant="standard" field-name="Numero_designacion__c" required>
+                </lightning-input-field>
+              </div>
+              <div if:true={activarCamposPublicos} class="slds-col slds-size_1-of-2">
+              </div>
+            </div>
+
+        <div if:true={bShowModalConfirmacion}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true"
+              aria-describedby="modal-content-id-2" class="slds-modal slds-fade-in-open">
+              <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                  <button onclick={cerrarConformacion}
+                    class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                    <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small">
+                    </lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                  </button>
+                  <h2 id="modal-heading-02" class="slds-modal__title slds-hyphenate" style="color: #406f93;"><b>Confirmación</b></h2>
+
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                  <p style="text-align: center;" >Una vez guardes no podrás editar tu información laboral, ¿Estás seguro de guardar?</p>
+                </div>
+                <footer class="slds-modal__footer">
+                  <label style=" border-color: #4bada8;" class="slds-button slds-button_neutral" onclick={cerrarConformacion}>Cancelar</label>
+                  <lightning-button style="padding-left: 15px;" class="slds-m-top_small" variant="brand" type="submit" label="Guardar">
+                  </lightning-button>
+                </footer>
+              </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+          </div>
+            <div if:true={activarCampoFechaRetiro} class="slds-grid slds-grid_align-end">
+              <div style="padding-right: 15px;" class="slds-col">
+                <lightning-button variant="brand-outline" label="Cancelar" onclick={desactivarCrear}
+                  class="slds-m-left_x-small "></lightning-button>
+              </div>
+              <div class="slds-col">
+                <lightning-button  class="slds-m-top_small" variant="brand" type="submit" label="Guardar">
+                </lightning-button>
+              </div>
+            </div>
+          </lightning-record-edit-form>
+          <div if:false={activarCampoFechaRetiro}  class="slds-grid slds-grid_align-end">
+            <div style="padding-right: 15px;" class="slds-col">
+              <lightning-button variant="brand-outline" label="Cancelar" onclick={desactivarCrear}
+                class="slds-m-left_x-small "></lightning-button>
+            </div>
+            <div class="slds-col">
+              <button onclick={abrirConfirmacion} class="slds-button slds-button_brand">Guardar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+
+
+  </template>
+</template>

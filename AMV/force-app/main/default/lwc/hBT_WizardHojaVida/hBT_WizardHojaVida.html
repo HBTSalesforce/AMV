@@ -1,0 +1,61 @@
+<template>
+    <lightning-progress-indicator
+        current-step={currentStep}
+        type="base"
+        variant="base"
+    >
+        <lightning-progress-step
+            label="Step 1"
+            value="1"
+        ></lightning-progress-step>
+        <lightning-progress-step
+            label="Step 2"
+            value="2"
+        ></lightning-progress-step>
+        <lightning-progress-step
+            label="Step 3"
+            value="3"
+        ></lightning-progress-step>
+    </lightning-progress-indicator>
+
+    <lightning-record-edit-form object-api-name="Contact">
+        <lightning-messages> </lightning-messages>
+        <div class="stepOne">
+            <lightning-input-field field-name="FirstName">
+            </lightning-input-field>
+            <lightning-button
+                class="slds-m-top_small"
+                label="Next"
+                onclick={goToStepTwo}
+            ></lightning-button>
+        </div>
+        <div class="stepTwo slds-hide">
+            <lightning-input-field field-name="LastName">
+            </lightning-input-field>
+            <lightning-button
+                class="slds-m-top_small"
+                label="Previous"
+                onclick={goBackToStepOne}
+            ></lightning-button>
+            <lightning-button
+                class="slds-m-top_small"
+                label="Next"
+                onclick={goToStepThree}
+            ></lightning-button>
+        </div>
+        <div class="stepThree slds-hide">
+            <lightning-input-field field-name="Email"> </lightning-input-field>
+            <lightning-button
+                class="slds-m-top_small"
+                label="Previous"
+                onclick={goBackToStepTwo}
+            ></lightning-button>
+            <lightning-button
+                class="slds-m-top_small"
+                label="Save"
+                type="submit"
+                onclick={handleSave}
+            ></lightning-button>
+        </div>
+    </lightning-record-edit-form>
+</template>

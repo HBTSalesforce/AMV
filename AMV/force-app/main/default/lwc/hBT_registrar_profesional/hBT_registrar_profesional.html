@@ -1,0 +1,489 @@
+<template>
+    <div style="height:100px; background-color: #003f6f; ">
+
+        <img src={imglogo} style="height:100px; text-align: left;" />
+    </div>
+    <br />
+    <template if:true={mensajeErrorEncontrado}>
+
+        <center>
+            <div class="mensajeError">
+                <p>{mensajeErrorEncontrado} </p>
+            </div>
+        </center>
+    </template>
+    <div style="padding: 0 15% 0 15%;">
+        <!--lightning-card title="Registro nuevo profesional" icon-name="action:user"-->
+        <lightning-icon icon-name="action:user" alternative-text="Registro nuevo profesional"
+            title="Registro nuevo profesional" size="small"></lightning-icon><span
+            style="font-size: x-large;color:#64C6C1;"> <b> Registro </b> nuevo profesional
+        </span>
+
+        <lightning-record-edit-form object-api-name="Contact" onsubmit={handleSubmitNewContact} record-id={idDCreado}
+            onsuccess={handleContactCreationSuccessful} onerror={handleErrorOnContactCreation}>
+
+            <template if:false={idDCreado}>
+
+                <div class="slds-grid slds-wrap slds-gutters_large slds-grid_align-center slds-p-around_large">
+                    <div class="slds-col slds-size_1-of-1">
+                        <span style="font-size: large;color:#64C6C1;"> <b> Información </b> personal
+                        </span><br /><br />
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input-field field-name="RecordTypeId" value={profesionalRecordTypeId}
+                            class="slds-hide"></lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input-field field-name="AccountId" value={accountId} class="slds-hide">
+                        </lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input-field field-name="FirstName" variant="standard" required>
+                        </lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input-field field-name="MiddleName" variant="standard"></lightning-input-field>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input-field field-name="LastName" variant="standard" required>
+                        </lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input-field field-name="Segundo_apellido__c" variant="standard">
+                        </lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input-field field-name="Tipo_documento__c" variant="standard" required>
+                        </lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input-field field-name="Numero_documento__c" variant="standard" required>
+                        </lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input-field field-name="Pais_nacionalidad__c" variant="standard" required>
+                        </lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input-field field-name="Ciudad_nacimiento__c" variant="standard" required>
+                        </lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input-field field-name="Birthdate" variant="standard" format="MM/dd/yyyy" required>
+                        </lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input-field field-name="Genero__c" variant="standard"></lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input-field field-name="Estado_civil__c" variant="standard" required>
+                        </lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input-field field-name="Nivel_escolaridad__c" variant="standard" required>
+                        </lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1">
+                        <br /> <span style="font-size: large;color:#64C6C1;"> <b> Información </b> de contacto
+                        </span><br /><br />
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input-field field-name="Email" variant="standard" required>
+                        </lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <label class="slds-form-element__label">
+                            <span class="slds-m-right_small">Teléfono</span>
+                            <!--lightning-helptext icon-name="utility:like" content="Enter a value and click Like"></lightning-helptext-->
+                        </label>
+                        <lightning-input-field field-name="Phone" variant="label-hidden" required>
+                        </lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input-field field-name="npe01__WorkEmail__c" variant="standard">
+                        </lightning-input-field>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input-field field-name="MobilePhone" variant="standard" required>
+                        </lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1">
+                        <lightning-input-field field-name="Ciudad_residencia__c" variant="standard" required>
+                        </lightning-input-field>
+                        <br />
+                        Dirección de residencia
+                    </div>
+                    <div class="slds-col slds-size_1-of-1">
+                        <div class="slds-grid slds-wrap slds-grid_align-center">
+                            <div class="slds-col slds-size_full">
+                                <div class="slds-grid slds-gutters">
+                                    <div class="slds-col slds-grow-none">
+                                        <lightning-input-field field-name="Tipo_via__c" variant="label-hidden" required>
+                                        </lightning-input-field>
+                                    </div>
+                                    <div class="slds-col slds-grow-none">
+                                        <lightning-input-field field-name="Via_principal__c" variant="label-hidden"
+                                            required>
+                                        </lightning-input-field>
+                                    </div>
+                                    <div class="slds-col slds-grow-none"> # </div>
+                                    <div class="slds-col slds-grow-none">
+                                        <lightning-input-field field-name="Numero__c" variant="label-hidden" required>
+                                        </lightning-input-field>
+                                    </div>
+                                    <div class="slds-col slds-grow-none"> - </div>
+                                    <div class="slds-col slds-grow-none">
+                                        <lightning-input-field field-name="Via_generadora__c" variant="label-hidden"
+                                            required>
+                                        </lightning-input-field>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-1">
+                        <br />
+                        <lightning-input-field field-name="Complemento__c" variant="label-stacked" class="slds-hide"
+                            value={complemento1}>
+                        </lightning-input-field>
+                        <lightning-input type="text" onchange={handleComplementoChange}
+                            placeholder="Información complementaria de la dirección de residencia"></lightning-input>
+
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-1">
+                        <br /><span style="font-size: large;color:#64C6C1;"> <b> Información </b> de
+                            notificación
+                        </span><br />
+                        <span>
+                            <p style="color:64C6C1;"><i>La información suministrada en esta sección, se utilizara para que los funcionarios de AMV le notifiquen
+                                 todo lo relacionado con su proceso de certificación</i>
+                            </p>
+                        </span>
+                        <br />
+                    </div>
+                    <div class="slds-col slds-size_1-of-1">
+                        <lightning-input-field field-name="Compartir_informacion_contacto__c" variant="label-stacked" class="slds-hide"
+                        value={valorNotificacion}></lightning-input-field>
+                        
+                        <lightning-input type="checkbox" onchange={handleCheckBoxChange}
+                            label="¿Usar la información de contacto para notificación?"></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1">
+                        <template if:false={mostrarNotificacion}>
+
+                            <div
+                                class="slds-grid slds-wrap slds-gutters_large slds-grid_align-center slds-p-around_large">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <label class="slds-form-element__label">
+                                        <span class="slds-m-right_small">Teléfono de notificación</span>
+                                        <!--lightning-helptext icon-name="utility:like" content="Enter a value and click Like"></lightning-helptext-->
+                                    </label>
+                                    <lightning-input-field field-name="OtherPhone" variant="label-hidden">
+                                    </lightning-input-field>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input-field field-name="Celular_notificacion__c" variant="standard">
+                                    </lightning-input-field>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1">
+                                    <br />
+                                    Dirección de notificación
+                                </div>
+                                <div class="slds-col slds-size_1-of-1">
+                                    <div class="slds-grid slds-wrap slds-grid_align-center">
+                                        <div class="slds-col slds-size_full">
+                                            <div class="slds-grid slds-gutters">
+                                                <div class="slds-col">
+                                                    <lightning-input-field field-name="Tipo_viaN__c"
+                                                        variant="label-hidden">
+                                                    </lightning-input-field>
+                                                </div>
+                                                <div class="slds-col">
+                                                    <lightning-input-field field-name="Via_principalN__c"
+                                                        variant="label-hidden">
+                                                    </lightning-input-field>
+                                                </div>
+                                                <div class="slds-col"> # </div>
+                                                <div class="slds-col">
+                                                    <lightning-input-field field-name="NumeroN__c"
+                                                        variant="label-hidden">
+                                                    </lightning-input-field>
+                                                </div>
+                                                <div class="slds-col"> - </div>
+                                                <div class="slds-col">
+                                                    <lightning-input-field field-name="Via_generadoraN__c"
+                                                        variant="label-hidden">
+                                                    </lightning-input-field>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1">
+                                    <br />
+                                    <lightning-input-field field-name="ComplementoN__c" variant="label-stacked"
+                                        class="slds-hide" value={complemento2}>
+                                    </lightning-input-field>
+                                    <lightning-input type="text" onchange={handleComplemento2Change}
+                                        placeholder="Información complementaria de la dirección de notificación">
+                                    </lightning-input>
+
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-2 slds-text-align_center">
+                        <br /><br />
+                        <lightning-input-field field-name="Terminos_condiciones__c" variant="standard" required>
+
+                        </lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-text-align_center">
+                        <br /><br />
+                        <a href={urlData} target="_blank" style="text-decoration-line: none;">
+                            <lightning-icon icon-name="utility:preview"
+                                alternative-text="Descargar Términos y condiciones"
+                                title="Descargar Términos y condiciones" size="x-small"
+                                style="text-decoration-line: none;"></lightning-icon>
+                            &nbsp; Ver <b>términos y condiciones</b> aquí
+                        </a>
+
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-text-align_center">
+                        <br /><br />
+
+                        <lightning-button class="slds-m-top_small" variant="brand" type="submit"
+                            label="Crear profesional">
+                        </lightning-button>
+                    </div>
+                </div>
+            </template>
+            <template if:true={idDCreado}>
+                <center>
+                    <div class="mensajeSucess">
+                        <p>Se ha creado satisfactoriamente el profesional, recibirá en breve un correo electrónico
+                            con
+                            el nombre de usuario
+                            y un link para la generación de su contraseña. </p>
+
+                    </div>
+                    <br />
+                    <a class="slds-m-top_small" href={sfdcBaseURL}>Volver a inicio</a>
+                </center>
+            </template>
+        </lightning-record-edit-form>
+
+    </div>
+    <!-- modal start -->
+    <template if:true={bShowModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large">
+            <div class="slds-modal__container">
+                <!-- modal header start -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small">
+                        </lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Agregar Dirección de
+                        Residencia</h2>
+                </header>
+                <!-- modal body start -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div class="slds-box slds-theme_default">
+                        <lightning-record-edit-form object-api-name="HBT_Direccion__c"
+                            onsuccess={handleSuccessResidencia} record-id={idDireccionResidencia}>
+                            <div class="slds-grid slds-wrap slds-grid_align-center">
+                                <div class="slds-col slds-size_full">
+                                    <div class="slds-grid slds-gutters">
+                                        <div class="slds-col">
+                                            <lightning-input-field field-name=campo_1__c variant="label-hidden"
+                                                required>
+                                            </lightning-input-field>
+                                        </div>
+                                        <div class="slds-col">
+                                            <lightning-input-field field-name=Campo_2__c variant="label-hidden"
+                                                required>
+                                            </lightning-input-field>
+                                        </div>
+                                        <div class="slds-col">
+                                            <lightning-input-field field-name=Campo_3__c variant="label-hidden">
+                                            </lightning-input-field>
+                                        </div>
+                                        <div class="slds-col">
+                                            <lightning-input-field field-name=Campo_4__c variant="label-hidden">
+                                            </lightning-input-field>
+                                        </div>
+                                        <div class="slds-col">
+                                            <lightning-input-field field-name=Campo_5__c variant="label-hidden">
+                                            </lightning-input-field>
+                                        </div>
+                                        <div class="slds-col">
+                                            <lightning-input-field field-name=Campo_6__c variant="label-hidden">
+                                            </lightning-input-field>
+                                        </div>
+                                        <div class="slds-col"> # </div>
+                                        <div class="slds-col">
+                                            <lightning-input-field field-name=Campo_7__c variant="label-hidden"
+                                                required>
+                                            </lightning-input-field>
+                                        </div>
+                                        <div class="slds-col">
+                                            <lightning-input-field field-name=Campo_8__c variant="label-hidden">
+                                            </lightning-input-field>
+                                        </div>
+                                        <div class="slds-col">
+                                            <lightning-input-field field-name=Campo_9__c variant="label-hidden"
+                                                required>
+                                            </lightning-input-field>
+                                        </div>
+                                        <div class="slds-col">
+                                            <lightning-input-field field-name=Campo_10__c variant="label-hidden">
+                                            </lightning-input-field>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br />Si tiene información adicional para agregar, seleccione el tipo en la lista
+                                desplegable siguiente y agregue los compentarios necesarios
+                                <div class="slds-col slds-size_full">
+                                    <div class="slds-grid slds-gutters">
+                                        <div class="slds-col">
+                                            <lightning-input-field field-name=Complementario_1__c
+                                                variant="label-hidden">
+                                            </lightning-input-field>
+                                        </div>
+                                        <div class="slds-col">
+                                            <lightning-input-field field-name=Complementario_2__c
+                                                variant="label-hidden">
+                                            </lightning-input-field>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="slds-col slds-grow-none slds-m-top_medium">
+                                    <lightning-button type="submit" label="Agregar dirección">
+                                    </lightning-button>
+                                </div>
+                            </div>
+                        </lightning-record-edit-form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- modal end -->
+    <!-- modal start -->
+    <template if:true={bShowModalNotificacion}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true"
+            aria-describedby="modal-content-id-2" class="slds-modal slds-fade-in-open slds-modal_large">
+            <div class="slds-modal__container">
+                <!-- modal header start -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModalNotificacion}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small">
+                        </lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Agregar Dirección
+                        Notificación</h2>
+                </header>
+                <!-- modal body start -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                    <div class="slds-box slds-theme_default">
+                        <lightning-record-edit-form object-api-name="HBT_Direccion__c"
+                            onsuccess={handleSuccessNotifcacion} record-id={idDireccionNotificacion}>
+                            <div class="slds-grid slds-wrap slds-grid_align-center">
+                                <div class="slds-col slds-size_full">
+                                    <div class="slds-grid slds-gutters">
+                                        <div class="slds-col">
+                                            <lightning-input-field field-name=campo_1__c variant="label-hidden"
+                                                required>
+                                            </lightning-input-field>
+                                        </div>
+                                        <div class="slds-col">
+                                            <lightning-input-field field-name=Campo_2__c variant="label-hidden"
+                                                required>
+                                            </lightning-input-field>
+                                        </div>
+                                        <div class="slds-col">
+                                            <lightning-input-field field-name=Campo_3__c variant="label-hidden">
+                                            </lightning-input-field>
+                                        </div>
+                                        <div class="slds-col">
+                                            <lightning-input-field field-name=Campo_4__c variant="label-hidden">
+                                            </lightning-input-field>
+                                        </div>
+                                        <div class="slds-col">
+                                            <lightning-input-field field-name=Campo_5__c variant="label-hidden">
+                                            </lightning-input-field>
+                                        </div>
+                                        <div class="slds-col">
+                                            <lightning-input-field field-name=Campo_6__c variant="label-hidden">
+                                            </lightning-input-field>
+                                        </div>
+                                        <div class="slds-col"> # </div>
+                                        <div class="slds-col">
+                                            <lightning-input-field field-name=Campo_7__c variant="label-hidden"
+                                                required>
+                                            </lightning-input-field>
+                                        </div>
+                                        <div class="slds-col">
+                                            <lightning-input-field field-name=Campo_8__c variant="label-hidden">
+                                            </lightning-input-field>
+                                        </div>
+                                        <div class="slds-col">
+                                            <lightning-input-field field-name=Campo_9__c variant="label-hidden"
+                                                required>
+                                            </lightning-input-field>
+                                        </div>
+                                        <div class="slds-col">
+                                            <lightning-input-field field-name=Campo_10__c variant="label-hidden">
+                                            </lightning-input-field>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />Si tiene información adicional para agregar, seleccione el tipo en la lista
+                                desplegable siguiente y agregue los compentarios necesarios
+                                <div class="slds-col slds-size_full">
+                                    <div class="slds-grid slds-gutters">
+                                        <div class="slds-col">
+                                            <lightning-input-field field-name=Complementario_1__c
+                                                variant="label-hidden">
+                                            </lightning-input-field>
+                                        </div>
+                                        <div class="slds-col">
+                                            <lightning-input-field field-name=Complementario_2__c
+                                                variant="label-hidden">
+                                            </lightning-input-field>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-grow-none slds-m-top_medium">
+                                    <lightning-button type="submit" label="Agregar dirección">
+                                    </lightning-button>
+                                </div>
+                            </div>
+                        </lightning-record-edit-form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- modal end -->
+
+</template>

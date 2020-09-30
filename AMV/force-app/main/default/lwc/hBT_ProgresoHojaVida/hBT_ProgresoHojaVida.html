@@ -1,0 +1,45 @@
+<template>
+
+  <div class="slds-grid slds-gutters">
+    <div class="slds-col">
+      <div class="slds-grid slds-gutters">
+        <div style="text-align: end;" class="slds-col">
+
+          <lightning-avatar  variant="circle" src={urlFoto} size="large"
+            fallback-icon-name="standard:person_account" class="slds-m-right_small"></lightning-avatar>
+
+        </div>
+        <div class="slds-col">
+          <p>Contacto</p>
+          <h1 style="color: #406f93; text-align: start; color: rgb(64, 111, 147); font-size: revert;">
+            <b>{primerNombre}</b> {restoNombre}</h1>
+        </div>
+      </div>
+
+    </div>
+    <div class="slds-col" style="padding-top: 15px">
+      <div class="slds-grid slds-gutters">
+        <div class="slds-col">
+          Hoja de vida
+        </div>
+        <div style="text-align: end;" class="slds-col">
+          <b> {avance}% Completado </b>
+        </div>
+      </div>
+      <lightning-progress-bar value={avance} size="large"></lightning-progress-bar>
+    </div>
+    <div class="slds-col">
+      <div class="slds-grid slds-gutters" style="padding-top: 15px">
+        <div if:true={descargar} class="slds-col" style="text-align: center">
+          <a href={urlData} target="_blank" style="text-decoration-line: none;">
+            <lightning-button variant="brand" label="Descargar hoja de vida" icon-name="utility:download"
+              icon-position="right" class="slds-m-left_x-small"></lightning-button>
+          </a>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+</template>

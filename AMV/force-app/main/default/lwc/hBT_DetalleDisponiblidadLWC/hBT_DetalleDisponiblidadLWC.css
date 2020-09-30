@@ -1,0 +1,41 @@
+.festivo{
+  width:5%; background: #dcdcdc;
+  text-align: center;
+}
+.otroMes{
+  width:5%; color:#848484;
+  text-align: center;
+}
+.festivoOtroMes{
+  width:5%; 
+  color:#848484;
+  background: #dcdcdc;
+  text-align: center;
+}
+.disponible{
+  width:5%; background:#7bd87b;
+  text-align: center;
+}
+.cupo{
+  width:5%; 
+  text-align: center;
+}
+.seleccionCupo{
+  width:5%; background:#64C6C1;
+  text-align: center;
+}
+.ocupado{
+  width:5%; background:#e73535;
+  text-align: center;
+}
+.seleccion{
+  width:5%; background:#64C6C1;
+  text-align: center;
+}
+.normal{
+  text-align: center;
+}
+.slds-scope .slds-gutters_x-large .slds-col {
+  padding-right: 1rem !important;
+  padding-left: 1rem !important;
+}

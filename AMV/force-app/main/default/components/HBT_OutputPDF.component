@@ -1,0 +1,12 @@
+<apex:component rendered="{!valor!=null}">
+    <apex:attribute name="titulo" description="Titulo del atributo." 
+                    type="String" required="true" />
+    <apex:attribute name="valor" description="Valor del atributo."
+                    type="String" required="true"  />
+    <apex:attribute name="rendered" description="Valor del atributo."
+                    type="boolean" required="false"  />
+    <apex:panelGroup >
+        <apex:outputText value="{!titulo}: " style=" font-family:sans-serif;font-size: 12px; font-weight:bold;" />
+        <apex:outputText value="{!valor}" style=" font-family:sans-serif; font-size: 12px;"  /> 
+    </apex:panelGroup>
+</apex:component>

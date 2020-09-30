@@ -1,0 +1,303 @@
+<template>
+    <div style=" padding-right: 30%; padding-left: 20%;">
+        <div if:true={activarAgregar} style="text-align: end;" class="slds-col_bump-left">
+            <button class="slds-button slds-button_outline-brand" onclick={activarCrear}>+ Agregar</button>
+        </div>
+
+    <div style="padding-top: 10%;" if:true={activarMostrar}>
+
+        <lightning-record-view-form if:false={editar} object-api-name="HBT_Pregunta_revelacion__c" record-id={recordId} onsuccess={exito}>
+               <h2 class="slds-text-heading_medium slds-hyphenate" style="color: #406f93;padding-left: 3%;"><b>Preguntas</b>  revelación <lightning-button-icon  style="text-align: end;" onclick={edicion} icon-name="utility:edit"
+        alternative-text="Editar" title="Editar"></lightning-button-icon></h2>
+            <div class="slds-grid slds-wrap slds-gutters_large slds-grid_align-center slds-p-around_large">
+                <div class="slds-col slds-size_1-of-1">
+                    <label class="slds-form-element__label" for="text-input-id-1"><b style="color: #4bada8;">1.</b> ¿Existe algún otro hecho, situación o
+                        circunstancia personal que desee revelar, atendiendo a la naturaleza y propósito del Sistema de
+                        Información AMV?</label>
+                    <lightning-output-field variant="label-hidden" 
+                        field-name="Pregunta_1__c">
+                    </lightning-output-field>
+                    <lightning-output-field variant="standard" if:true={activarJustificaion1D} field-name="Justificacion_1__c" >
+                    </lightning-output-field>
+                </div>
+                <div class="slds-col slds-size_1-of-1">
+                    <label class="slds-form-element__label" for="text-input-id-1"><b style="color: #4bada8;">2.</b> ¿Ha sido objeto de sanción administrativa,
+                        disciplinaria, condena penal o remoción del cargo por parte de autoridad administrativa?</label>
+                    <lightning-output-field variant="label-hidden" 
+                        field-name="Pregunta_2__c" >
+                    </lightning-output-field>
+                    <label if:true={activarJustificaion2D} class="slds-form-element__label" for="text-input-id-1">Nombre de la entidad que adelanta la
+                        actuación. Especifique el país en donde se originó la misma</label>
+                    <lightning-output-field variant="label-hidden" if:true={activarJustificaion2D}
+                        field-name="Entidad_adelanta_sancion__c" >
+                    </lightning-output-field>
+                    <lightning-output-field variant="standard"  if:true={activarJustificaion2D} field-name="Tipo_sancion__c" >
+                    </lightning-output-field>
+                    <lightning-output-field variant="standard"  if:true={activarJustificaion2D} field-name="Numero_documento_sancion__c"
+                        >
+                    </lightning-output-field>
+                    <lightning-output-field variant="standard"  if:true={activarJustificaion2D} field-name="Fecha_sancion__c" >
+                    </lightning-output-field>
+                    <div if:true={activarJustificaion2D}>
+                    <label  class="slds-form-element__label" for="text-input-id-1">Archivo</label>
+                    <a if:false={activarSubir} href={url} style="color: #4bada8;text-decoration-line: underline" target="_target">Documento{indice}</a>
+                </div>
+                    <lightning-output-field variant="standard"  if:true={activarJustificaion2D} field-name="Causa_motivo_sancion__c"
+                        >
+                    </lightning-output-field>
+                </div>
+                <div class="slds-col slds-size_1-of-1">
+                    <label class="slds-form-element__label" for="text-input-id-1"><b style="color: #4bada8;">3.</b> ¿Tiene conocimiento del desarrollo de
+                        alguna actuación administrativa, disciplinaria o penal en su contra?</label>
+                    <lightning-output-field variant="label-hidden" 
+                        field-name="Pregunta_3__c" >
+                    </lightning-output-field>
+                    <label if:true={activarJustificaion3D} class="slds-form-element__label" for="text-input-id-1">Nombre de la entidad que adelanta la
+                        actuación. Especifique el país en donde se originó la misma</label>
+                    <lightning-output-field variant="label-hidden" if:true={activarJustificaion3D}
+                        field-name="Entidad_adelanta_investigacion__c" >
+                    </lightning-output-field>
+                    <lightning-output-field variant="standard"  if:true={activarJustificaion3D} field-name="Estado_actual_actuacion__c"
+                        >
+                    </lightning-output-field>
+                    <lightning-output-field variant="standard"  if:true={activarJustificaion3D} field-name="Calidad_encuentra_vinculado__c"
+                        >
+                    </lightning-output-field>
+                    <lightning-output-field variant="standard"  if:true={activarJustificaion3D} field-name="Hechos_lugar_actuacion__c"
+                        >
+                    </lightning-output-field>
+
+                </div>
+                <div class="slds-col slds-size_1-of-1">
+                    <label class="slds-form-element__label" for="text-input-id-1"> <b style="color: #4bada8;">OTRAS OBSERVACIONES: </b>
+                         ¿Tiene usted información adicional que desee revelar con respecto a la
+                        información consignada en el SIAMV?</label>
+                    <lightning-output-field variant="label-hidden" 
+                        field-name="Pregunta_4__c">
+                    </lightning-output-field>
+                    <lightning-output-field variant="standard"  if:true={activarJustificaion4D} field-name="Justificacion_4__c" >
+                    </lightning-output-field>
+                </div>
+            </div>
+
+        </lightning-record-view-form>
+        <lightning-record-edit-form if:true={editar} object-api-name="HBT_Pregunta_revelacion__c" record-id={recordId} onsuccess={exito}>
+            <h2 class="slds-text-heading_medium slds-hyphenate" style="color: #406f93;padding-left: 3%;"><b>Preguntas</b>  revelación</h2>
+
+            <div class="slds-grid slds-wrap slds-gutters_large slds-grid_align-center slds-p-around_large">
+                <div class="slds-col slds-size_1-of-1">
+                    <label class="slds-form-element__label" for="text-input-id-1"><b style="color: #4bada8;">1. </b>
+                        <abbr class="slds-required" title="required">* </abbr>¿Existe algún otro hecho, situación o
+                        circunstancia personal que desee revelar, atendiendo a la naturaleza y propósito del Sistema de
+                        Información AMV?</label>
+                    <lightning-input-field variant="label-hidden" onchange={obtenerPreguntaUno}
+                        field-name="Pregunta_1__c">
+                    </lightning-input-field>
+                    <lightning-input-field variant="standard"  if:true={activarJustificaion1} field-name="Justificacion_1__c" required>
+                    </lightning-input-field>
+                </div>
+                <div class="slds-col slds-size_1-of-1">
+                    <label class="slds-form-element__label" for="text-input-id-1"><b style="color: #4bada8;">2. </b>
+                        <abbr class="slds-required" title="required">* </abbr>¿Ha sido objeto de sanción administrativa,
+                        disciplinaria, condena penal o remoción del cargo por parte de autoridad administrativa?</label>
+                    <lightning-input-field variant="label-hidden" onchange={obtenerPreguntaDos}
+                        field-name="Pregunta_2__c" required>
+                    </lightning-input-field>
+                    <label if:true={activarJustificaion2} class="slds-form-element__label" for="text-input-id-1">
+                        <abbr class="slds-required" title="required">* </abbr>Nombre de la entidad que adelanta la
+                        actuación. Especifique el país en donde se originó la misma</label>
+                    <lightning-input-field variant="label-hidden" if:true={activarJustificaion2}
+                        field-name="Entidad_adelanta_sancion__c" required>
+                    </lightning-input-field>
+                    <lightning-input-field variant="standard"  if:true={activarJustificaion2} field-name="Tipo_sancion__c" required>
+                    </lightning-input-field>
+                    <lightning-input-field variant="standard"  if:true={activarJustificaion2} field-name="Numero_documento_sancion__c"
+                        required>
+                    </lightning-input-field>
+                    <lightning-input-field variant="standard"  if:true={activarJustificaion2} field-name="Fecha_sancion__c" required>
+                    </lightning-input-field>
+                    <label if:true={activarJustificaion2}  class="slds-form-element__label" for="text-input-id-1">Archivo</label>
+                        <div if:true={activarJustificaion2}  >
+                          <a if:false={activarSubir} href={url} style="color: #4bada8;text-decoration-line: underline" target="_target">Documento</a> <b if:false={activarSubir} onclick={eliminarArchivo} style="color: red;" >x</b>
+                        </div>
+
+                      <div if:true={activarSubir}>
+                        <lightning-file-upload if:true={activarJustificaion2} name="fileUploader" accept={formatosAceptados} record-id={recordId}
+                          onuploadfinished={cargaFinalizar} >
+                        </lightning-file-upload>
+                    </div>
+                    <lightning-input-field variant="standard"  if:true={activarJustificaion2} field-name="Causa_motivo_sancion__c" required>
+                    </lightning-input-field>
+                </div>
+                <div class="slds-col slds-size_1-of-1">
+                    <label class="slds-form-element__label" for="text-input-id-1"><b style="color: #4bada8;">3. </b>
+                        <abbr class="slds-required" title="required">* </abbr>¿Tiene conocimiento del desarrollo de
+                        alguna actuación administrativa, disciplinaria o penal en su contra?</label>
+                    <lightning-input-field variant="label-hidden" onchange={obtenerPreguntaTres}
+                        field-name="Pregunta_3__c" required>
+                    </lightning-input-field>
+                    <label if:true={activarJustificaion3} class="slds-form-element__label" for="text-input-id-1">
+                        <abbr class="slds-required" title="required">* </abbr>Nombre de la entidad que adelanta la
+                        actuación. Especifique el país en donde se originó la misma</label>
+                    <lightning-input-field variant="label-hidden" if:true={activarJustificaion3}
+                        field-name="Entidad_adelanta_investigacion__c" required>
+                    </lightning-input-field>
+                    <lightning-input-field variant="standard"  if:true={activarJustificaion3} field-name="Estado_actual_actuacion__c"
+                        required>
+                    </lightning-input-field>
+                    <lightning-input-field variant="standard"  if:true={activarJustificaion3} field-name="Calidad_encuentra_vinculado__c"
+                        required>
+                    </lightning-input-field>
+                    <lightning-input-field variant="standard"  if:true={activarJustificaion3} field-name="Hechos_lugar_actuacion__c"
+                        required>
+                    </lightning-input-field>
+
+                </div>
+                <div class="slds-col slds-size_1-of-1">
+                    <label class="slds-form-element__label" for="text-input-id-1"><b style="color: #4bada8;">OTRAS OBSERVACIONES:</b>
+                         ¿Tiene usted información adicional que desee revelar con respecto a la
+                        información consignada en el SIAMV?</label>
+                    <lightning-input-field variant="label-hidden" onchange={obtenerPreguntaCuatro}
+                        field-name="Pregunta_4__c">
+                    </lightning-input-field>
+                    <lightning-input-field variant="standard"  if:true={activarJustificaion4} field-name="Justificacion_4__c" required>
+                    </lightning-input-field>
+                </div>
+
+            </div>
+            <div class="slds-grid slds-grid_align-end">
+                <div class="slds-col">
+                    <lightning-button style="padding-right: 10px;" variant="brand-outline" label="Cancelar"
+                        onclick={cancelarEdicion} class="slds-m-left_x-small ">
+                    </lightning-button>
+                </div>
+                <div class="slds-col">
+                    <lightning-button class="slds-m-top_small" variant="brand" type="submit" label="Guardar">
+                    </lightning-button>
+                </div>
+            </div>
+        </lightning-record-edit-form>
+    </div>
+</div>
+
+    <template if:true={bShowModal}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open " aria-labelledby="modal-heading-01"
+            aria-modal="true" aria-describedby="modal-content-id-1">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={desactivarCrear}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate" style="color: #406f93;">
+                        <b>Preguntas</b> revelación</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lightning-record-edit-form object-api-name="HBT_Pregunta_revelacion__c" onsuccess={exito}>
+                        <lightning-input-field style="display: none;" value={profesional} field-name="Profesional__c"
+                            required>
+                        </lightning-input-field>
+                        <div class="slds-grid slds-wrap slds-gutters_large slds-grid_align-center slds-p-around_large">
+                            <div class="slds-col slds-size_1-of-1">
+                                <label class="slds-form-element__label" for="text-input-id-1"><b style="color: #4bada8;">1. </b>
+                                    <abbr class="slds-required" title="required">* </abbr>¿Existe algún otro hecho,
+                                    situación o circunstancia personal que desee revelar, atendiendo a la naturaleza y
+                                    propósito del Sistema de Información AMV?</label>
+                                <lightning-input-field variant="label-hidden" onchange={obtenerPreguntaUno}
+                                    field-name="Pregunta_1__c">
+                                </lightning-input-field>
+                                <lightning-input-field if:true={activarJustificaion1} field-name="Justificacion_1__c"
+                                    required>
+                                </lightning-input-field>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1">
+                                <label class="slds-form-element__label" for="text-input-id-1"><b style="color: #4bada8;">2. </b>
+                                    <abbr class="slds-required" title="required">* </abbr>¿Ha sido objeto de sanción
+                                    administrativa, disciplinaria, condena penal o remoción del cargo por parte de
+                                    autoridad administrativa?</label>
+                                <lightning-input-field variant="label-hidden" onchange={obtenerPreguntaDos}
+                                    field-name="Pregunta_2__c" required>
+                                </lightning-input-field>
+                                <label if:true={activarJustificaion2} class="slds-form-element__label"
+                                    for="text-input-id-1">
+                                    <abbr class="slds-required" title="required">* </abbr>Nombre de la entidad que
+                                    adelanta la actuación. Especifique el país en donde se originó la misma</label>
+                                <lightning-input-field variant="label-hidden" if:true={activarJustificaion2}
+                                    field-name="Entidad_adelanta_sancion__c" required>
+                                </lightning-input-field>
+                                <lightning-input-field if:true={activarJustificaion2} field-name="Tipo_sancion__c"
+                                    required>
+                                </lightning-input-field>
+                                <lightning-input-field if:true={activarJustificaion2}
+                                    field-name="Numero_documento_sancion__c" required>
+                                </lightning-input-field>
+                                <lightning-input-field if:true={activarJustificaion2} field-name="Fecha_sancion__c"
+                                    required>
+                                </lightning-input-field>
+                                <lightning-input-field if:true={activarJustificaion2}
+                                    field-name="Causa_motivo_sancion__c" required>
+                                </lightning-input-field>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1">
+                                <label class="slds-form-element__label" for="text-input-id-1"><b style="color: #4bada8;">3. </b>
+                                    <abbr class="slds-required" title="required">* </abbr>¿Tiene conocimiento del
+                                    desarrollo de alguna actuación administrativa, disciplinaria o penal en su
+                                    contra?</label>
+                                <lightning-input-field variant="label-hidden" onchange={obtenerPreguntaTres}
+                                    field-name="Pregunta_3__c" required>
+                                </lightning-input-field>
+                                <label if:true={activarJustificaion3} class="slds-form-element__label"
+                                    for="text-input-id-1">
+                                    <abbr class="slds-required" title="required">* </abbr>Nombre de la entidad que
+                                    adelanta la actuación. Especifique el país en donde se originó la misma</label>
+                                <lightning-input-field variant="label-hidden" if:true={activarJustificaion3}
+                                    field-name="Entidad_adelanta_investigacion__c" required>
+                                </lightning-input-field>
+                                <lightning-input-field if:true={activarJustificaion3}
+                                    field-name="Estado_actual_actuacion__c" required>
+                                </lightning-input-field>
+                                <lightning-input-field if:true={activarJustificaion3}
+                                    field-name="Calidad_encuentra_vinculado__c" required>
+                                </lightning-input-field>
+                                <lightning-input-field if:true={activarJustificaion3}
+                                    field-name="Hechos_lugar_actuacion__c" required>
+                                </lightning-input-field>
+
+                            </div>
+                            <div class="slds-col slds-size_1-of-1">
+                                <label class="slds-form-element__label" for="text-input-id-1"><b style="color: #4bada8;"> OTRAS OBSERVACIONES:  </b>
+                                   ¿Tiene usted información adicional que desee revelar con
+                                    respecto a la información consignada en el SIAMV?</label>
+                                <lightning-input-field variant="label-hidden" onchange={obtenerPreguntaCuatro}
+                                    field-name="Pregunta_4__c">
+                                </lightning-input-field>
+                                <lightning-input-field if:true={activarJustificaion4} field-name="Justificacion_4__c"
+                                    required>
+                                </lightning-input-field>
+                            </div>
+
+                        </div>
+                        <div class="slds-grid slds-grid_align-end">
+                            <div class="slds-col">
+                                <lightning-button style="padding-right: 10px;" variant="brand-outline" label="Cancelar"
+                                    onclick={desactivarCrear} class="slds-m-left_x-small ">
+                                </lightning-button>
+                            </div>
+                            <div class="slds-col">
+                                <lightning-button class="slds-m-top_small" variant="brand" type="submit"
+                                    label="Guardar">
+                                </lightning-button>
+                            </div>
+                        </div>
+                    </lightning-record-edit-form>
+                </div>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+
+
+    </template>
+</template>

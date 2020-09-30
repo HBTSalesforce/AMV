@@ -1,0 +1,212 @@
+<template>
+  <div class="margenGeneral">
+    <div class="slds-grid">
+      <div if:true={activarAplica} style="padding-top: 10px" dir="rtl">
+        <div  class="slds-form-element">
+          <label  class="slds-checkbox_toggle slds-grid">
+            <span style="padding-left: 10px;" class="slds-form-element__label slds-m-bottom_none">No aplica</span>
+            <input class="check" onchange={activarJuntas} type="checkbox" name="checkbox-toggle-16" value="checkbox-toggle-16"
+              aria-describedby="checkbox-toggle-16" checked={activarTodo} />
+            <span id="checkbox-toggle-16" class="slds-checkbox_faux_container" aria-live="assertive">
+              <span style="background: linear-gradient(to left, #4bada8  ,black);"  class="slds-checkbox_faux"></span>
+              <p ></p>
+            </span>
+          </label>
+      </div>
+    </div>
+    <div if:false={activarTodo} class="slds-col_bump-left">
+      <button class="slds-button slds-button_outline-brand" onclick={activarCrear}>+ Agregar</button>
+    </div>
+  </div>
+    <br>
+    <br>
+    <lightning-accordion if:false={activarTodo} allow-multiple-sections-open class="prueba">
+      <template for:each={accList} for:item="info" for:index="index">
+        <div key={info.Id}>
+          <lightning-accordion-section  name={index} icon-name="utility:edit"
+            label={info.Entidad__c}>
+
+            <lightning-button-icon id={index} onclick={editar} slot="actions" icon-name="utility:edit"
+              alternative-text="Editar" title="Editar"></lightning-button-icon>
+
+            <lightning-record-view-form if:true={info.activar} record-id={info.Id}
+              object-api-name="HBT_Junta_Directiva__c">
+              <div style="padding-left: 7%;"> 
+                <lightning-output-field variant="standard"  field-name="Entidad__c">
+                </lightning-output-field>
+              </div>
+
+              <div class="slds-grid" >
+
+                <div style="padding-left: 7%;" class="slds-col slds-size_1-of-2">
+
+                  <lightning-output-field field-name="NIT__c" variant="standard">
+                  </lightning-output-field>
+                  <lightning-output-field field-name="Calidad_miembro__c" variant="standard">
+                  </lightning-output-field>
+                  <lightning-output-field if:true={info.trabaja} field-name="Elegido_desde__c" variant="standard">
+                  </lightning-output-field>
+
+                </div>
+                <div style="padding-right: 7%;" class="slds-col slds-size_1-of-2">
+
+                  <lightning-output-field field-name="Digito_verificacion__c" variant="standard">
+                  </lightning-output-field>
+                  <lightning-output-field if:true={info.trabaja} field-name="Fecha_designacion__c" variant="standard">
+                  </lightning-output-field>
+                  <lightning-output-field if:true={info.trabaja} field-name="Elegido_hasta__c" variant="standard">
+                  </lightning-output-field>
+                  <lightning-output-field  variant="standard"
+                    field-name="Labora_entidad_publica__c">
+                  </lightning-output-field>
+                </div>
+              </div>
+            </lightning-record-view-form>
+            <lightning-record-edit-form if:false={info.activar} onsuccess={exito} record-id={info.Id}
+              object-api-name="HBT_Junta_Directiva__c">
+              <div style="padding-left: 2.5%;">
+              <lightning-input-field variant="standard"  field-name="Entidad__c" required>
+              </lightning-input-field>
+            </div>
+              <div 
+                class="slds-grid slds-wrap slds-gutters_large slds-grid_align-center slds-p-around_large">
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-input-field field-name="NIT__c" variant="standard" required>
+                  </lightning-input-field>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+
+                  <lightning-input-field field-name="Digito_verificacion__c" variant="standard" required>
+                  </lightning-input-field>
+
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-input-field field-name="Calidad_miembro__c" variant="standard" required>
+                  </lightning-input-field>
+                </div>
+                <div style="padding-top: 30px;" class="slds-col slds-size_1-of-2">
+
+                  <lightning-input-field onchange={checkLabora} name={index} variant="standard"
+                    field-name="Labora_entidad_publica__c">
+                  </lightning-input-field>
+                </div>
+
+                <div if:true={info.trabaja} class="slds-col slds-size_1-of-2">
+                  <lightning-input-field field-name="Elegido_desde__c" variant="standard" required>
+                  </lightning-input-field>
+                </div>
+                <div if:true={info.trabaja} class="slds-col slds-size_1-of-2">
+                  <lightning-input-field field-name="Fecha_designacion__c" variant="standard" required>
+                  </lightning-input-field>
+                </div>
+                <div if:true={info.trabaja} class="slds-col slds-size_1-of-2">
+                  <lightning-input-field field-name="Elegido_hasta__c" variant="standard">
+                  </lightning-input-field>
+                </div>
+                <div if:true={info.trabaja} class="slds-col slds-size_1-of-2">
+
+                </div>
+              </div>
+
+              <div class="slds-grid slds-grid_align-end">
+                <div class="slds-col">
+                  <lightning-button style="padding-right: 10px;" variant="brand-outline" label="Cancelar"
+                    onclick={editarFalse} class="slds-m-left_x-small "></lightning-button>
+                </div>
+                <div class="slds-col">
+                  <lightning-button class="slds-m-top_small" variant="brand" type="submit" label="Guardar">
+                  </lightning-button>
+                </div>
+              </div>
+            </lightning-record-edit-form>
+          </lightning-accordion-section>
+        </div>
+      </template>
+    </lightning-accordion>
+
+  </div>
+  <template if:true={bShowModal}>
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open " aria-labelledby="modal-heading-01"
+      aria-modal="true" aria-describedby="modal-content-id-1">
+      <div class="slds-modal__container">
+        <header class="slds-modal__header">
+          <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+            onclick={desactivarCrear}>
+            <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small">
+            </lightning-icon>
+            <span class="slds-assistive-text">Close</span>
+          </button>
+          <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate" style="color: #406f93;">
+            <b>Juntas</b> Directivas</h2>
+        </header>
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+          <lightning-record-edit-form object-api-name="HBT_Junta_Directiva__c" onerror={error} onsuccess={exito}
+            onsubmit={crearInformacionAcademica}>
+
+            <lightning-input-field style="display: none;" value={profesional} field-name="Profesional__c">
+            </lightning-input-field>
+            <div 
+              class="slds-grid slds-wrap slds-gutters_large slds-grid_align-center slds-p-around_large">
+              <div class="slds-col slds-size_2-of-2">
+                <lightning-input-field field-name="Entidad__c" required>
+                </lightning-input-field>
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                <lightning-input-field value={nit} onkeypress={valor} field-name="NIT__c" required>
+                </lightning-input-field>
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                <lightning-input-field field-name="Digito_verificacion__c" required>
+                </lightning-input-field>
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                <lightning-input-field field-name="Calidad_miembro__c" required>
+                </lightning-input-field>
+              </div>
+
+              <div style="padding-top: 30px;" class="slds-col slds-size_1-of-2">
+
+                <lightning-input-field onchange={checkLabora} variant="standard" field-name="Labora_entidad_publica__c">
+                </lightning-input-field>
+              </div>
+              <div if:true={labora} class="slds-col slds-size_1-of-2">
+                <lightning-input-field field-name="Fecha_designacion__c" required>
+                </lightning-input-field>
+              </div>
+              <div if:true={labora} class="slds-col slds-size_1-of-2">
+                <lightning-input-field field-name="Elegido_desde__c" required>
+                </lightning-input-field>
+              </div>
+              <div if:true={labora} class="slds-col slds-size_1-of-2">
+                <lightning-input-field field-name="Elegido_hasta__c">
+                </lightning-input-field>
+              </div>
+              <div if:true={labora} class="slds-col slds-size_1-of-2">
+
+              </div>
+
+            </div>
+            <div class="slds-grid slds-grid_align-end">
+              <div class="slds-col">
+                <lightning-button style="padding-right: 15px" variant="brand-outline" label="Cancelar"
+                  title="Primary action with lighter look" onclick={desactivarCrear} class="slds-m-left_x-small">
+                </lightning-button>
+
+              </div>
+              <div class="slds-col">
+                <lightning-button class="slds-m-top_small" variant="brand" type="submit" label="Guardar">
+                </lightning-button>
+              </div>
+            </div>
+          </lightning-record-edit-form>
+        </div>
+
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+
+
+  </template>
+
+
+</template>

@@ -1,0 +1,322 @@
+<template>
+    <div class="margenGeneral">
+        <lightning-accordion allow-multiple-sections-open class="claseAcordeon">
+            <lightning-accordion-section name="A" label="Información Personal">
+                <lightning-button-icon onclick={editarPersonal} slot="actions" icon-name="utility:edit"
+                    alternative-text="Editar" title="Editar"></lightning-button-icon>
+                <lightning-record-view-form if:true={activarPersonal} record-id={recordId} object-api-name="Contact">
+                    <div class="slds-grid">
+                        <div style="padding-left: 7%;" class="slds-col slds-size_1-of-2">
+                            <!-- Your lightning-output-field components here -->
+                            <lightning-output-field variant="standard" field-name="Tipo_documento__c">
+                            </lightning-output-field>
+                            <label class="slds-form-element__label" for="text-output-id-1">Primer nombre</label>
+                            <lightning-output-field field-name="FirstName" variant="label-hidden" required>
+                            </lightning-output-field>
+                            <label class="slds-form-element__label" for="text-output-id-1">Primer apellido</label>
+                            <lightning-output-field field-name="LastName" variant="label-hidden" required>
+                            </lightning-output-field>
+                            <lightning-output-field field-name="Genero__c" variant="standard">
+                            </lightning-output-field>
+                            <lightning-output-field field-name="Pais_nacionalidad__c" variant="standard">
+                            </lightning-output-field>
+                            <lightning-output-field field-name="Birthdate" variant="standard">
+                            </lightning-output-field>
+
+                        </div>
+                        <div style="padding-right: 7%;" class="slds-col slds-size_1-of-2">
+                            <!-- More lightning-output-field components here -->
+                            <lightning-output-field field-name="Numero_documento__c" variant="standard">
+                            </lightning-output-field>
+                            <lightning-output-field field-name="MiddleName" variant="standard"></lightning-output-field>
+                            <lightning-output-field field-name="Segundo_apellido__c" variant="standard">
+                            </lightning-output-field>
+                            <lightning-output-field field-name="Estado_civil__c" variant="standard">
+                            </lightning-output-field>
+                            <lightning-output-field field-name="Nivel_escolaridad__c" variant="standard">
+                            </lightning-output-field>
+                            <lightning-output-field field-name="Ciudad_nacimiento__c" variant="standard">
+                            </lightning-output-field>
+
+                        </div>
+                    </div>
+                </lightning-record-view-form>
+                <lightning-record-edit-form if:false={activarPersonal} onsuccess={exito} record-id={recordId}
+                    object-api-name="Contact">
+                    <div class="slds-grid slds-wrap slds-gutters_large slds-grid_align-center slds-p-around_large">
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="Tipo_documento__c" variant="standard" disabled>
+                            </lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="Numero_documento__c" variant="standard" disabled>
+                            </lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <label class="slds-form-element__label" for="text-input-id-1">
+                                <abbr class="slds-required" title="required">* </abbr>Primer nombre</label>
+                            <lightning-input-field field-name="FirstName" variant="label-hidden" required>
+                            </lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="MiddleName" variant="standard"></lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <label class="slds-form-element__label" for="text-input-id-1">
+                                <abbr class="slds-required" title="required">* </abbr>Primer apellido</label>
+                            <lightning-input-field field-name="LastName" variant="label-hidden" required>
+                            </lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="Segundo_apellido__c" variant="standard">
+                            </lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="Genero__c" variant="standard">
+                            </lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="Estado_civil__c" variant="standard" required>
+                            </lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="Pais_nacionalidad__c" variant="standard" required>
+                            </lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="Nivel_escolaridad__c" variant="standard" required>
+                            </lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="Birthdate" variant="standard" required>
+                            </lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="Ciudad_nacimiento__c" variant="standard" required>
+                            </lightning-input-field>
+
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-grid_align-end">
+                        <div style="padding-right: 15px;" class="slds-col">
+                            <lightning-button variant="brand-outline" label="Cancelar"
+                                title="Primary action with lighter look" onclick={editarFalse1}
+                                class="slds-m-left_x-small"></lightning-button>
+
+                        </div>
+                        <div class="slds-col">
+                            <lightning-button class="slds-m-top_small" variant="brand" type="submit" label="Guardar">
+                            </lightning-button>
+                        </div>
+                    </div>
+                </lightning-record-edit-form>
+            </lightning-accordion-section>
+            <lightning-accordion-section name="C" label="Información de Residencia">
+                <lightning-button-icon onclick={editarNotificacion} slot="actions" icon-name="utility:edit"
+                    alternative-text="Settings" title="Settings"></lightning-button-icon>
+
+                <lightning-record-view-form if:true={activarNotificaciones} record-id={recordId}
+                    object-api-name="Contact">
+                    <div class="slds-grid slds-wrap slds-gutters_large slds-grid_align-center slds-p-around_large">
+
+                        <div style="padding-left: 7%;" class="slds-col slds-size_1-of-2">
+
+                            <label class="slds-form-element__label" for="text-input-id-1">Dirección de residencia</label>
+                            <lightning-output-field field-name="DireccionR__c" variant="label-hidden">
+                            </lightning-output-field>
+                            <lightning-output-field field-name="Ciudad_residencia__c" variant="standard">
+                            </lightning-output-field>
+                            <lightning-output-field field-name="MobilePhone" variant="standard" required>
+                            </lightning-output-field>
+                        </div>
+
+                        <div style="padding-right: 7%;" class="slds-col slds-size_1-of-2">
+                            <lightning-output-field field-name="Departamento_residencia__c" variant="standard" required>
+                            </lightning-output-field>
+                            <lightning-output-field field-name="Phone" variant="standard">
+                            </lightning-output-field>
+                            <lightning-output-field field-name="Email" variant="standard" required>
+                            </lightning-output-field>
+
+                        </div>
+                    </div>
+                </lightning-record-view-form>
+
+                <lightning-record-edit-form if:false={activarNotificaciones} onsuccess={exito} record-id={recordId}
+                    object-api-name="Contact">
+                    <div class="slds-grid slds-wrap slds-gutters_large slds-grid_align-center slds-p-around_large">
+
+                        <div class="slds-col slds-size_1-of-2">
+                            <label class="slds-form-element__label" for="text-input-id-1">Dirección de residencia</label>
+                            <div class="slds-grid">
+                                <div style="width: 300px;padding-left: 10px; padding-right: 6px;" class="slds-col">
+                                    <lightning-input-field field-name="Tipo_via__c" variant="label-hidden" required>
+                                    </lightning-input-field>
+                                </div>
+                                <div style="padding: 0;" class="slds-col ">
+                                    <lightning-input-field field-name="Via_principal__c" variant="label-hidden"
+                                        required>
+                                    </lightning-input-field>
+                                </div>
+                                <div style="padding: 0;" class="slds-col "> # </div>
+                                <div style="padding: 0;" class="slds-col ">
+                                    <lightning-input-field field-name="Numero__c" variant="label-hidden" required>
+                                    </lightning-input-field>
+                                </div>
+                                <div style="padding: 0;" class="slds-col "> - </div>
+                                <div style="padding: 0;" class="slds-col ">
+                                    <lightning-input-field field-name="Via_generadora__c" variant="label-hidden"
+                                        required>
+                                    </lightning-input-field>
+                                </div>
+                    </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field style="display: none;" value={infoComplementoResidencia} field-name="Complemento__c" variant="label-hidden"
+                                placeholder="Información complementaria">
+                            </lightning-input-field>
+                            <lightning-input type="text" onchange={obtenerDireccionResidencia}
+                            placeholder="Información complementaria de la dirección de residencia"></lightning-input>
+
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="MobilePhone" variant="standard" required>
+                            </lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="Ciudad_residencia__c" variant="standard">
+                            </lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="Email" variant="standard">
+                            </lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="HomePhone" variant="standard">
+                            </lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="Phone" variant="standard">
+                            </lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+
+                        </div>
+
+                    </div>
+                    <div class="slds-grid slds-grid_align-end">
+                        <div style="padding-right: 15px;" class="slds-col">
+                            <lightning-button variant="brand-outline" label="Cancelar"
+                                title="Primary action with lighter look" onclick={editarFalse3}
+                                class="slds-m-left_x-small"></lightning-button>
+
+                        </div>
+                        <div class="slds-col">
+                            <lightning-button class="slds-m-top_small" variant="brand" type="submit" label="Guardar">
+                            </lightning-button>
+                        </div>
+                    </div>
+                </lightning-record-edit-form>
+            </lightning-accordion-section>
+            <lightning-accordion-section icon-name="utility:edit" name="B" label="Información de Contacto">
+                <lightning-button-icon onclick={editarContacto} slot="actions" icon-name="utility:edit"
+                    alternative-text="Settings" title="Settings"></lightning-button-icon>
+
+                <lightning-record-view-form if:true={activarContacto} record-id={recordId} object-api-name="Contact">
+                    <div class="slds-grid">
+                        <div style="padding-left: 7%;" class="slds-col slds-size_1-of-2">
+                            <lightning-output-field field-name="Departamento_notificacion__c" variant="standard">
+                            </lightning-output-field>
+                            <lightning-output-field field-name="DireccionN__c" variant="standard">
+                            </lightning-output-field>
+                            <lightning-output-field field-name="Celular_notificacion__c" variant="standard">
+                            </lightning-output-field>             
+                        </div>
+                        <div style="padding-right: 7%;" class="slds-col slds-size_1-of-2">
+                            <lightning-output-field field-name="Ciudad_notificacion__c" variant="standard">
+                            </lightning-output-field>
+                            <lightning-output-field field-name="OtherPhone" variant="standard">
+                            </lightning-output-field>
+                            <lightning-output-field field-name="npe01__WorkEmail__c" variant="standard">
+                            </lightning-output-field>
+                        </div>
+                    </div>
+                </lightning-record-view-form>
+                <lightning-record-edit-form if:false={activarContacto} onsuccess={exito} record-id={recordId}
+                    object-api-name="Contact">
+
+                    <div 
+                        class="slds-grid slds-wrap slds-gutters_large slds-grid_align-center slds-p-around_large">
+
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="OtherPhone" variant="standard">
+                            </lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="npe01__WorkEmail__c" variant="standard">
+                            </lightning-input-field>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-2">
+                            <label class="slds-form-element__label" for="text-input-id-1">Dirección de contacto</label>
+                            <div class="slds-grid">
+                                <div style="width: 300px;padding-left: 10px; padding-right: 6px;" class="slds-col">
+                                    <lightning-input-field field-name="Tipo_viaN__c" variant="label-hidden" required>
+                                    </lightning-input-field>
+                                </div>
+                                <div style="padding: 0;" class="slds-col ">
+                                    <lightning-input-field field-name="Via_principalN__c" variant="label-hidden"
+                                        required>
+                                    </lightning-input-field>
+                                </div>
+                                <div style="padding: 0;" class="slds-col "> # </div>
+                                <div style="padding: 0;" class="slds-col ">
+                                    <lightning-input-field field-name="NumeroN__c" variant="label-hidden" required>
+                                    </lightning-input-field>
+                                </div>
+                                <div style="padding: 0;" class="slds-col "> - </div>
+                                <div style="padding: 0;" class="slds-col ">
+                                    <lightning-input-field field-name="Via_generadoraN__c" variant="label-hidden"
+                                        required>
+                                    </lightning-input-field>
+                                </div>
+                    </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field style="display: none;" value={infoComplementoContacto} field-name="ComplementoN__c" variant="label-hidden"
+                                placeholder="Información complementaria">
+                            </lightning-input-field>
+                            <lightning-input type="text" onchange={obtenerDireccionContacto}
+                            placeholder="Información complementaria de la dirección de contacto"></lightning-input>
+
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="Ciudad_notificacion__c" variant="standard">
+                            </lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="Celular_notificacion__c" variant="standard">
+                            </lightning-input-field>
+                        </div>
+
+
+                    </div>
+                    <div class="slds-grid slds-grid_align-end">
+                        <div style="padding-right: 15px;" class="slds-col">
+                            <lightning-button variant="brand-outline" label="Cancelar"
+                                title="Primary action with lighter look" onclick={editarFalse2}
+                                class="slds-m-left_x-small"></lightning-button>
+
+                        </div>
+                        <div class="slds-col">
+                            <lightning-button class="slds-m-top_small" variant="brand" type="submit" label="Guardar">
+                            </lightning-button>
+                        </div>
+                    </div>
+
+                </lightning-record-edit-form>
+
+            </lightning-accordion-section>
+        </lightning-accordion>
+    </div>
+</template>

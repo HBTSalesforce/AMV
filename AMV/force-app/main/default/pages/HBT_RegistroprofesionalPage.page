@@ -1,0 +1,38 @@
+<apex:page sidebar="false" showHeader="false" controller="HBT_RegistrarProfesionalController">
+    <apex:includeScript value="/lightning/lightning.out.js"/>
+    <head>  
+    <script type="text/javascript">
+        
+    </script>
+</head>
+    <apex:form id="apForm">
+    
+    </apex:form>
+    <!--<apex:includeScript value="lightning/lightning.out.js?v=2"/>-->
+    <apex:includeLightning />
+   <div class="slds">
+        <div class="slds-grid">
+            <div class="slds-col"><div id="formSelection" /></div>
+       </div>
+    </div>
+    <script>
+   
+        $Lightning.use("c:HBT_RegistroProfesionalApp",
+            function(){
+                $Lightning.createComponent(
+                    "c:hBT_registrar_profesional",
+                    { },
+                    "formSelection",
+                    function(cmp){
+                        // Callback when component is created
+                    }
+                );
+            },
+            "{!$Site.BaseUrl}",
+            null
+         );
+    
+    
+    </script>
+      
+</apex:page>

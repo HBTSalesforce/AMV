@@ -1,0 +1,279 @@
+<apex:page showHeader="false"  renderAs="PDF" controller="HBT_DescargaHojaVidaController" applyBodyTag="false" applyHtmlTag="false" title="Hoja de Vida" standardStylesheets="false" lightningStylesheets="false">
+    
+    <head>
+        <style type="text/css" media="print">   
+            @page { 
+                margin: 20px 20px 30px 20px ;
+                size:auto;
+                @bottom-left {
+                content: element(footer);
+                }
+                }
+                
+                
+                div.content {
+                padding-top: 130px;
+                } 
+                
+                div.footer {
+                display: block;
+                padding: 5px;
+                position: running(footer);
+                font-family:sans-serif;
+                font-size: 13px;
+                }
+                
+                div.subfooter {
+                display: inline-block;
+                font-family:sans-serif;
+                font-size: 11px;
+                }
+                
+                div.right {
+                float: right;
+                }
+                
+                .pagenumber:before {
+                content: counter(page);
+                }
+                
+                .pagecount:before {
+                content: counter(pages);
+                }
+                
+                .withoutLineTitle {
+                border-width: 0px 0px 0px 0px;
+                font-family:sans-serif;
+                font-size: 13px;
+                font-weight:bold;
+                text-align:center;
+                }
+                
+                .withoutLine {
+                border-width: 0px 0px 0px 0px;
+                }
+                .columnStyle {
+                width: 20%;
+                }
+                
+                .titulo{
+                font-family:sans-serif;
+                font-size: 13px;
+                font-weight:bold;
+                position: fixed;
+                left: 35px;
+                
+                }
+                .subtitulo{
+                font-family:sans-serif;
+                font-size: 13px;
+                
+                
+                }
+                .tituloPrincipal{
+                font-family:sans-serif;
+                font-size: 20px;
+                font-weight:bold;
+                }
+                title {
+                display: inline !important;
+                }
+                .subtituloHeader{
+                text-align:center;
+                font-family:sans-serif;
+                font-size: 20px;
+                font-weight:bold;
+                color:white;
+                padding:3px;
+                }
+                .fondoHeader{
+                background:#005fb2; 
+                width:100%;
+                }
+                .header{
+                width:95%;
+                margin:auto;
+                }
+        </style>
+        
+        
+        <title style="display:inline !important">HOJA DE VIDA</title>
+    </head>
+    
+    <body>
+        
+        <div class="footer">
+            <div class="subfooter">Autorregulador de Mercado de Valores</div>
+            <div class="subfooter right">Página <span class="pagenumber"/> de <span class="pagecount"/></div>
+        </div>  
+        
+        <apex:image url="{!$Resource.Logo}" style="width: 20%;"/>
+        <div class="slds-scope">
+            <div class="slds-grid">
+                <div class="slds-col">
+                    <br/>
+                    <div class="slds-text-heading_medium">
+                        <center><apex:outputText styleClass="tituloPrincipal" value="Hoja de vida de {!contacto.name}"/></center>
+                    </div>
+                </div>
+                <br/>
+            </div>
+            <br/>
+            <apex:outputPanel >
+                <apex:pageBlock >
+                    <br/><apex:outputText styleClass="titulo" value="INFORMACIÓN BÁSICA"/><br/>
+                    <apex:panelGrid columns="2" cellpadding="5" cellspacing="5" styleClass="header" columnClasses="columnStyle">
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.Contact.fields.Tipo_documento__c.Label}" valor="{!contactoDTO.tipoDocumento}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.Contact.fields.Numero_documento__c.Label}" valor="{!contacto.Numero_documento__c}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.Contact.fields.Genero__c.Label}" valor="{!contactoDTO.genero}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.Contact.fields.Estado_civil__c.Label}" valor="{!contactoDTO.estadoCivil}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.Contact.fields.Pais_nacionalidad__c.Label}" valor="{!contactoDTO.paisNacionalidad}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.Contact.fields.Nivel_escolaridad__c.Label}" valor="{!contactoDTO.nivelEscolaridad}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.Contact.fields.Birthdate.Label}" valor="{!contactoDTO.fechaNacimiento}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.Contact.fields.Pais_nacimiento__c.Label}" valor="{!contacto.Pais_nacimiento__c}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.Contact.fields.Departamento_nacimiento__c.Label}" valor="{!contacto.Departamento_nacimiento__c}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.Contact.fields.Ciudad_nacimiento__c.Label}" valor="{!contacto.Ciudad_nacimiento__r.name}"/>
+                    </apex:panelGrid>              
+                    <hr/>
+                    <br/><apex:outputText styleClass="titulo" value="INFORMACIÓN DE RESIDENCIA"/><br/>
+                    <apex:panelGrid columns="2" cellpadding="5" cellspacing="5" styleClass="header" columnClasses="columnStyle">
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.Contact.fields.DireccionR__c.Label}" valor="{!contacto.DireccionR__c}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.Contact.fields.Departamento_residencia__c.Label}" valor="{!contacto.Departamento_residencia__c}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.Contact.fields.Ciudad_residencia__c.Label}" valor="{!contacto.Ciudad_residencia__r.name}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.Contact.fields.Phone.Label}" valor="{!contacto.phone}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.Contact.fields.mobilePhone.Label}" valor="{!contacto.mobilePhone}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.Contact.fields.email.Label}" valor="{!contacto.email}"/>
+                    </apex:panelGrid>
+                    <hr/>
+                    <br/><apex:outputText styleClass="titulo" value="INFORMACIÓN DE CONTACTO"/><br/>
+                    <apex:panelGrid columns="2" cellpadding="5" cellspacing="5" styleClass="header" columnClasses="columnStyle">
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.Contact.fields.Departamento_notificacion__c.Label}" valor="{!contacto.Departamento_notificacion__c}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.Contact.fields.Ciudad_notificacion__c.Label}" valor="{!contacto.Ciudad_notificacion__r.name}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.Contact.fields.DireccionN__c.Label}" valor="{!contacto.DireccionN__c}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.Contact.fields.OtherPhone.Label}" valor="{!contacto.OtherPhone}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.Contact.fields.Celular_notificacion__c.Label}" valor="{!contacto.Celular_notificacion__c}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.Contact.fields.npe01__WorkEmail__c.Label}" valor="{!contacto.npe01__WorkEmail__c}"/>
+                    </apex:panelGrid>
+                    <hr/>
+                    <br/><apex:outputText styleClass="titulo" value="INFORMACIÓN ACADÉMICA"/><br/>
+                    
+                    <apex:repeat value="{!informacionesAcademica}" var="informacionAcademica" rendered="{!informacionesAcademica.size>0}">
+
+                        <apex:panelGrid columns="2" cellpadding="5" cellspacing="5" styleClass="header" columnClasses="columnStyle">
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_academica__c.fields.Nivel_estudio__c.Label}" valor="{!informacionAcademica.nivelEstudio}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_academica__c.fields.Institucion_academica__c.Label}" valor="{!informacionAcademica.institucionAcademica}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_academica__c.fields.Carrera__c.Label}" valor="{!informacionAcademica.carrera}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_academica__c.fields.Tipo_curso__c.Label}" valor="{!informacionAcademica.nivelEstudio}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_academica__c.fields.Nombre_curso__c.Label}" valor="{!informacionAcademica.nombreCurso}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_academica__c.fields.Estado_estudio__c.Label}" valor="{!informacionAcademica.estadoEstudio}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_academica__c.fields.Fecha_terminacion_grado__c.Label}" valor="{!informacionAcademica.fechaTerminacion}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_academica__c.fields.Departamento__c.Label}" valor="{!informacionAcademica.departamento}" />
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_academica__c.fields.Ciudad__c.Label}" valor="{!informacionAcademica.ciudad}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_academica__c.fields.Pais__c.Label}" valor="{!informacionAcademica.pais}"/>
+                    </apex:panelGrid>
+                    <hr/>
+                    </apex:repeat>
+
+                <apex:panelGroup rendered="{!informacionLaborales.size>0}">
+                    
+                    <br/><apex:outputText styleClass="titulo" value="INFORMACIÓN LABORAL"/><br/>
+                    <apex:repeat value="{!informacionLaborales}" var="laboral">
+                        <apex:panelGrid columns="2" cellpadding="5" cellspacing="5" styleClass="header" columnClasses="columnStyle">
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_laboral__c.fields.Labora_actualmente__c.Label}" valor="{!laboral.laboralActualmente}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_laboral__c.fields.Entidad__c.Label}" valor="{!laboral.entidad}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_laboral__c.fields.Tipo_entidad__c.Label}" valor="{!laboral.tipoEntidad}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_laboral__c.fields.Codigo_entidad__c.Label}" valor="{!laboral.codigoEntidad}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_laboral__c.fields.NIT__c.Label}" valor="{!laboral.nitEntidad}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_laboral__c.fields.Pais__c.Label}" valor="{!laboral.pais}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_laboral__c.fields.Departamento__c.Label}" valor="{!laboral.departamento}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_laboral__c.fields.Ciudad__c.Label}" valor="{!laboral.ciudad}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_laboral__c.fields.DireccionL__c.Label}" valor="{!laboral.direccion}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_laboral__c.fields.Telefono__c.Label}" valor="{!laboral.telefono}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_laboral__c.fields.Correo_electronico_corporativo__c.Label}" valor="{!laboral.correoCorporativo}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_laboral__c.fields.Vinculacion__c.Label}" valor="{!laboral.vinculacion}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_laboral__c.fields.Cargo__c.Label}" valor="{!laboral.cargo}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_laboral__c.fields.Fecha_ingreso__c.Label}" valor="{!laboral.fechaIngreso}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_laboral__c.fields.Fecha_retiro__c.Label}" valor="{!laboral.fechaRetiro}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_laboral__c.fields.Cargo__c.Label}" valor="{!laboral.cargo}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_laboral__c.fields.Funciones_desempena__c.Label}" valor="{!laboral.funciones}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_laboral__c.fields.Otras_Funciones__c.Label}" valor="{!laboral.otrasFunciones}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_laboral__c.fields.Fecha_posesion_SFC__c.Label}" valor="{!laboral.fechaPosesionSFC}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_laboral__c.fields.Fecha_posesion_BVC__c.Label}" valor="{!laboral.fechaPosesionBVC}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_laboral__c.fields.Fecha_designacion__c.Label}" valor="{!laboral.fechaDesignacion}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_laboral__c.fields.Documento_designacion__c.Label}" valor="{!laboral.documentoDesignacion}"/>
+                        <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Informacion_laboral__c.fields.Numero_designacion__c.Label}" valor="{!laboral.numeroDesignacion}"/>
+
+                        <hr/>
+                    </apex:panelGrid>
+                    
+                    </apex:repeat>
+                    </apex:panelGroup>
+                    <apex:panelGroup rendered="{!juntaDirectivas.size>0}">
+                        
+                        <br/><apex:outputText styleClass="titulo" value="JUNTAS DIRECTIVAS" /><br/>
+                        <apex:repeat value="{!juntaDirectivas}" var="juntaDirectiva">
+                            <hr/>
+                            <apex:panelGrid columns="1" cellpadding="5" cellspacing="5" styleClass="header" columnClasses="columnStyle">
+                                <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Junta_Directiva__c.fields.Entidad__c.Label}" valor="{!juntaDirectiva.entidad}"/>
+                            </apex:panelGrid>
+                            
+                            <apex:panelGrid columns="2" cellpadding="5" cellspacing="5" styleClass="header" columnClasses="columnStyle">
+                            <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Junta_Directiva__c.fields.NIT__c.Label}" valor="{!juntaDirectiva.nit}"/>
+                            <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Junta_Directiva__c.fields.Digito_verificacion__c.Label}" valor="{!juntaDirectiva.dv}"/>
+                            <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Junta_Directiva__c.fields.Calidad_miembro__c.Label}" valor="{!juntaDirectiva.calidadMiembro}"/>
+                            <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Junta_Directiva__c.fields.Fecha_designacion__c.Label}" valor="{!juntaDirectiva.fechaDesignacion}"/>
+                            <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Junta_Directiva__c.fields.Elegido_desde__c.Label}" valor="{!juntaDirectiva.elegidoDesde}"/>
+                            <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Junta_Directiva__c.fields.Elegido_hasta__c.Label}" valor="{!juntaDirectiva.elegidoHasta}"/>
+                        </apex:panelGrid>
+                        
+                        </apex:repeat>
+                    </apex:panelGroup>
+                    <apex:panelGroup rendered="{!sanciones.size>0}">
+                        <hr/>
+                        <br/><apex:outputText styleClass="titulo" value="SANCIONES" /><br/>
+                        <apex:repeat value="{!sanciones}" var="sancion">
+                            <apex:panelGrid columns="2" cellpadding="5" cellspacing="5" styleClass="header" columnClasses="columnStyle">
+                            <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Sancion__c.fields.entidad__c.Label}" valor="{!sancion.entidad}"/>
+                            <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Sancion__c.fields.Cual__c.Label}" valor="{!sancion.cualEntidad}"/>
+                            <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Sancion__c.fields.Tipo_sancion__c.Label}" valor="{!sancion.tipoSancion}"/>
+                            <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Sancion__c.fields.Tipo_documento_sancion__c.Label}" valor="{!sancion.tipoDocumento}"/>
+                            <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Sancion__c.fields.Numero_documento_sancion__c.Label}" valor="{!sancion.numeroDocumento}"/>
+                            <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Sancion__c.fields.Valor_multa__c.Label}" valor="{!sancion.valorMulta}"/>
+                        </apex:panelGrid>
+                        </apex:repeat>
+                    </apex:panelGroup>
+                    <apex:panelGroup rendered="{!investigaciones.size>0}">
+                        <hr/>
+                        <br/><apex:outputText styleClass="titulo" value="INVESTIGACIONES" /><br/>
+                        <apex:repeat value="{!investigaciones}" var="investigacion">
+                            <apex:panelGrid columns="2" cellpadding="5" cellspacing="5" styleClass="header" columnClasses="columnStyle">
+                            <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Investigacion__c.fields.Entidad__c.Label}" valor="{!investigacion.entidad}"/>
+                            <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Investigacion__c.fields.Cual__c.Label}" valor="{!investigacion.cualEntidad}"/>
+                            <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Investigacion__c.fields.Estado__c.Label}" valor="{!investigacion.estado}"/>
+                            <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Investigacion__c.fields.Motivo_investigacion__c.Label}" valor="{!investigacion.motivo}"/>
+                            <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Investigacion__c.fields.Fecha_desde__c.Label}" valor="{!investigacion.fechaDesde}"/>
+                            <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Investigacion__c.fields.Fecha_hasta__c.Label}" valor="{!investigacion.fechaHasta}"/>
+                        </apex:panelGrid>
+                        </apex:repeat>
+                    </apex:panelGroup>
+                    <apex:panelGroup rendered="{!investigaciones.size>0}">
+                        <hr/>
+                        <br/><apex:outputText styleClass="titulo" value="REPRESENTACION LEGAL" /><br/>
+                        <apex:repeat value="{!representaciones}" var="representacion">
+                            <apex:panelGrid columns="2" cellpadding="5" cellspacing="5" styleClass="header" columnClasses="columnStyle">
+                            <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Representacion_legal__c.fields.Entidad__c.Label}" valor="{!representacion.entidad}"/>
+                            <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Representacion_legal__c.fields.NIT__c.Label}" valor="{!representacion.nit}"/>
+                            <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Representacion_legal__c.fields.Digito_verificacion__c.Label}" valor="{!representacion.dv}"/>
+                            <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Representacion_legal__c.fields.Fecha_desde__c.Label}" valor="{!representacion.fechaDesde}"/>
+                            <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Representacion_legal__c.fields.Fecha_hasta__c.Label}" valor="{!representacion.fechaHasta}"/>
+                            <c:HBT_OutputPDF titulo="{!$ObjectType.HBT_Representacion_legal__c.fields.Fecha_designacion__c.Label}" valor="{!representacion.fechaDesignacion}"/>
+                        </apex:panelGrid>
+                        </apex:repeat>
+                    </apex:panelGroup>
+                </apex:pageBlock>
+            </apex:outputPanel>
+        </div>
+        
+    </body>
+    
+</apex:page>

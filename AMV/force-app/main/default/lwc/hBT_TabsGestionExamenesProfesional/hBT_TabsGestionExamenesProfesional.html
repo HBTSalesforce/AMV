@@ -1,0 +1,66 @@
+<template>
+    <div style="text-align: end; padding-right: 10%;">
+        <button class="slds-button slds-button_brand" onclick={abrirRegistrarExamen}>Registrar exámen</button>
+    </div>
+    <lightning-tabset>
+        <lightning-tab label="Exámenes pendientes por agendar">
+            <c-h-b-t_-Examenes-Pendientes-Agendar></c-h-b-t_-Examenes-Pendientes-Agendar>
+        </lightning-tab>
+        <lightning-tab label="Exámenes pendientes por programar">
+            <c-h-b-t_-Examenes-Programados></c-h-b-t_-Examenes-Programados>
+        </lightning-tab>
+        <lightning-tab label="Item Three">
+            Three Content !
+        </lightning-tab>
+
+    </lightning-tabset>
+
+    <div if:true={abrirModalRegistrarExamen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large"
+            aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button onclick={cerrarRegistrarExamen}
+                        class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small">
+                        </lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate" style="color: #406f93;">
+                        <b>Registrar</b> exámenes</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lightning-combobox name="progress" label="Certificación" placeholder="Seleccione una certificación"
+                        options={options} onchange={consultarFiltro}>
+                    </lightning-combobox>
+                    <br>
+                    <div class="slds-grid slds-grid_align-end">
+                        <div class="slds-col">
+                            <button if:true={activarAgregarCarrito} class="slds-button slds-button_brand"
+                                onclick={agregarCarrito}>+ Agregar al carrito
+                            </button> </div>
+                        <div style="padding-left: 15px;" class="slds-col">
+                            <p style="color: #4bada8;">Ver carrito (<b>hola</b>) <lightning-icon icon-name="utility:cart"
+                                    alternative-text="Carrito" size="large" title="Carrito"></lightning-icon>
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <br>
+                    <div style="height: 300px;">
+                        <lightning-datatable key-field="id" data={data} columns={columns}
+                            onrowselection={capturarDatosTabla}>
+                        </lightning-datatable>
+                    </div>
+
+                </div>
+                <footer class="slds-modal__footer">
+                    <button onclick={cerrarRegistrarExamen} class="slds-button slds-button_neutral">Cancel</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</template>
